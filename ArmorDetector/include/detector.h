@@ -1,0 +1,56 @@
+#ifndef DETETCTOR_H
+#define DETETCTOR_H
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <vector>
+#include <string>
+#include "armor.h"
+#include "number_classifier.h"
+namespace rm_auto_aim
+{
+    class Detector
+    {
+    public:
+        struct LightParams
+        {
+            float LightMinArea = 50;
+            // width / height
+            double min_ratio = 0.1;
+            double max_ratio = 0.55;
+            // vertical angle
+            double max_angle = 40.0;
+        };
+        struct ArmorParams
+        {
+            double min_light_ratio = 0.6;
+            double min_small_center_distance = 0.8;
+            double max_small_center_distance = 2.8;
+            double min_large_center_distance = 3.2;
+            double max_large_center_distance = 4.3;
+            // horizontal angle
+            double max_angle = 40.0;
+        };
+        Detector() = default;
+        std::unique_ptr<NumberClassifier> classifier;
+        cv::Mat debug;
+        cv::Mat binary_img;
+        std::vector<Light> True_lights;
+        std::vector<Armor> True_armors;
+        LightParams L_Param;
+        ArmorParams A_Param;
+        int detect_for_target(const cv::Mat &frame, int color_label, Armor &TargetArmor);
+        void detector(const cv::Mat &input, int enemy_color);
+        void PreProcessImage(const cv::Mat &input, cv::Mat &output, int enemy_color);
+        void FindLights(const cv::Mat &binaryImg, std::vector<Light> &lights);
+        void matchArmor(std::vector<Light> &lights, std::vector<Armor> &Armors);
+        bool containLight(const Light &light_1, const Light &light_2, const std::vector<Light> &lights);
+        void drawResults(cv::Mat &img);
+
+    private:
+        bool isLight(const Light &light);
+        bool isArmor(Armor &armor);
+    };
+
+}
+
+#endif

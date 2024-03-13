@@ -1,0 +1,3 @@
+/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles/HDUS.dir
+/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles/edit_cache.dir
+/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles/rebuild_cache.dir
