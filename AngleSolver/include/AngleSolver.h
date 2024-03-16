@@ -3,7 +3,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "armor.h"
-#include "detector.h"
+#include <Eigen/Core>
+#include <Eigen/Dense>
+#include <opencv2/core/eigen.hpp> //放在eigen头文件后面
 using namespace std;
 // armor size
 #define BIG_ARMOR_LEN 217.5
@@ -18,18 +20,16 @@ private:
     std::vector<cv::Point3f> SmallArmorPoint3D;
     cv::Mat camera_matrix = cv::Mat(3, 3, CV_32FC1);
     cv::Mat distortion_coefficients;
+    Eigen::Vector3d xyz;
     float _cam_bias_z;
     float _cam_bias_y;
     float _coeff_friction;
     float _gravity;
 
 public:
-    AngleSolver();
-    ~AngleSolver();
-
-    void Init(const std::string &paramPath, float camBiasZ, float camBiasY, float gravity);
-    void solve_angle(rm_auto_aim::Armor &TargetArmor);
-    void GetAngle(float &pitch, float &yaw, float &distance);
+    void Init(const std::string &paramPath, float camBiasZ, float camBiasY, float gravity); // 结算初始化
+    void solve_angle(rm_auto_aim::Armor &TargetArmor);                                      // 姿态结算计算
+    void GetAngle(float &pitch, float &yaw, float &distance, float XYZ[3]);                 // 获取角度距离信息接口
 };
 
 #endif

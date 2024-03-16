@@ -249,6 +249,78 @@ SerialPort/src/CRC_Check.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.s
 .PHONY : SerialPort/src/CRC_Check.cpp.s
 
+SerialPort/src/serialport.o: SerialPort/src/serialport.cpp.o
+.PHONY : SerialPort/src/serialport.o
+
+# target to build an object file
+SerialPort/src/serialport.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o
+.PHONY : SerialPort/src/serialport.cpp.o
+
+SerialPort/src/serialport.i: SerialPort/src/serialport.cpp.i
+.PHONY : SerialPort/src/serialport.i
+
+# target to preprocess a source file
+SerialPort/src/serialport.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.i
+.PHONY : SerialPort/src/serialport.cpp.i
+
+SerialPort/src/serialport.s: SerialPort/src/serialport.cpp.s
+.PHONY : SerialPort/src/serialport.s
+
+# target to generate assembly for a file
+SerialPort/src/serialport.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.s
+.PHONY : SerialPort/src/serialport.cpp.s
+
+Thread/thread.o: Thread/thread.cpp.o
+.PHONY : Thread/thread.o
+
+# target to build an object file
+Thread/thread.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Thread/thread.cpp.o
+.PHONY : Thread/thread.cpp.o
+
+Thread/thread.i: Thread/thread.cpp.i
+.PHONY : Thread/thread.i
+
+# target to preprocess a source file
+Thread/thread.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Thread/thread.cpp.i
+.PHONY : Thread/thread.cpp.i
+
+Thread/thread.s: Thread/thread.cpp.s
+.PHONY : Thread/thread.s
+
+# target to generate assembly for a file
+Thread/thread.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Thread/thread.cpp.s
+.PHONY : Thread/thread.cpp.s
+
+general/general.o: general/general.cpp.o
+.PHONY : general/general.o
+
+# target to build an object file
+general/general.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/general/general.cpp.o
+.PHONY : general/general.cpp.o
+
+general/general.i: general/general.cpp.i
+.PHONY : general/general.i
+
+# target to preprocess a source file
+general/general.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/general/general.cpp.i
+.PHONY : general/general.cpp.i
+
+general/general.s: general/general.cpp.s
+.PHONY : general/general.s
+
+# target to generate assembly for a file
+general/general.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/general/general.cpp.s
+.PHONY : general/general.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -297,6 +369,15 @@ help:
 	@echo "... SerialPort/src/CRC_Check.o"
 	@echo "... SerialPort/src/CRC_Check.i"
 	@echo "... SerialPort/src/CRC_Check.s"
+	@echo "... SerialPort/src/serialport.o"
+	@echo "... SerialPort/src/serialport.i"
+	@echo "... SerialPort/src/serialport.s"
+	@echo "... Thread/thread.o"
+	@echo "... Thread/thread.i"
+	@echo "... Thread/thread.s"
+	@echo "... general/general.o"
+	@echo "... general/general.i"
+	@echo "... general/general.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

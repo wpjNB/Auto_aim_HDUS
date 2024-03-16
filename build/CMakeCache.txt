@@ -223,6 +223,9 @@ HDUS_SOURCE_DIR:STATIC=/home/wpj/RM_Vision_code_US/auto_aim_HDUS
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/usr/local/lib/cmake/opencv4
 
+//The directory containing a CMake configuration file for fmt.
+fmt_DIR:PATH=/usr/local/lib/cmake/fmt
+
 
 ########################
 # INTERNAL cache entries

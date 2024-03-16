@@ -8,7 +8,14 @@ namespace rm_auto_aim
     // 装甲板颜色
     const int RED = 0;
     const int BLUE = 1;
-
+    // 灯条装甲板状态
+    enum DetectorState
+    {
+        LIGHTS_NOT_FOUND = 0,
+        LIGHTS_FOUND = 1,
+        ARMOR_NOT_FOUND = 2,
+        ARMOR_FOUND = 3
+    };
     // 装甲板类型
     enum ArmorType
     {
@@ -70,7 +77,6 @@ namespace rm_auto_aim
         cv::Point2f center;
 
         cv::Mat number_img;
-
         std::string number;
         int idx;
         float similarity;

@@ -25,7 +25,7 @@
     <!--采集触发帧率-->
     <nAcquisitionBurstFrameCountValue>1</nAcquisitionBurstFrameCountValue>
     <!--设置采集帧率-->
-    <fFPSValue>165.0000</fFPSValue>
+    <fFPSValue>200.0000</fFPSValue>
     <!--设置使能采集帧率控制-->
     <nSetBoolValue3>1</nSetBoolValue3>
     <!--曝光时间-->

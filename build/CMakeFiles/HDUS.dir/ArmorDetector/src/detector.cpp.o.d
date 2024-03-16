@@ -354,4 +354,5 @@ CMakeFiles/HDUS.dir/ArmorDetector/src/detector.cpp.o: \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
  /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/number_classifier.h
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/number_classifier.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/debug.h

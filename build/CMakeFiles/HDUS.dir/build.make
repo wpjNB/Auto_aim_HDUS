@@ -153,6 +153,48 @@ CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/CRC_Check.cpp -o CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.s
 
+CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o: CMakeFiles/HDUS.dir/flags.make
+CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o: ../SerialPort/src/serialport.cpp
+CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o -MF CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o.d -o CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/serialport.cpp
+
+CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/serialport.cpp > CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.i
+
+CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/serialport.cpp -o CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.s
+
+CMakeFiles/HDUS.dir/Thread/thread.cpp.o: CMakeFiles/HDUS.dir/flags.make
+CMakeFiles/HDUS.dir/Thread/thread.cpp.o: ../Thread/thread.cpp
+CMakeFiles/HDUS.dir/Thread/thread.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/HDUS.dir/Thread/thread.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/Thread/thread.cpp.o -MF CMakeFiles/HDUS.dir/Thread/thread.cpp.o.d -o CMakeFiles/HDUS.dir/Thread/thread.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Thread/thread.cpp
+
+CMakeFiles/HDUS.dir/Thread/thread.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HDUS.dir/Thread/thread.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Thread/thread.cpp > CMakeFiles/HDUS.dir/Thread/thread.cpp.i
+
+CMakeFiles/HDUS.dir/Thread/thread.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/Thread/thread.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Thread/thread.cpp -o CMakeFiles/HDUS.dir/Thread/thread.cpp.s
+
+CMakeFiles/HDUS.dir/general/general.cpp.o: CMakeFiles/HDUS.dir/flags.make
+CMakeFiles/HDUS.dir/general/general.cpp.o: ../general/general.cpp
+CMakeFiles/HDUS.dir/general/general.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/HDUS.dir/general/general.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/general/general.cpp.o -MF CMakeFiles/HDUS.dir/general/general.cpp.o.d -o CMakeFiles/HDUS.dir/general/general.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/general/general.cpp
+
+CMakeFiles/HDUS.dir/general/general.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HDUS.dir/general/general.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wpj/RM_Vision_code_US/auto_aim_HDUS/general/general.cpp > CMakeFiles/HDUS.dir/general/general.cpp.i
+
+CMakeFiles/HDUS.dir/general/general.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/general/general.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/general/general.cpp -o CMakeFiles/HDUS.dir/general/general.cpp.s
+
 # Object files for target HDUS
 HDUS_OBJECTS = \
 "CMakeFiles/HDUS.dir/main.cpp.o" \
@@ -160,7 +202,10 @@ HDUS_OBJECTS = \
 "CMakeFiles/HDUS.dir/ArmorDetector/src/detector.cpp.o" \
 "CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o" \
 "CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o" \
-"CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o"
+"CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o" \
+"CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o" \
+"CMakeFiles/HDUS.dir/Thread/thread.cpp.o" \
+"CMakeFiles/HDUS.dir/general/general.cpp.o"
 
 # External object files for target HDUS
 HDUS_EXTERNAL_OBJECTS =
@@ -171,7 +216,11 @@ HDUS: CMakeFiles/HDUS.dir/ArmorDetector/src/detector.cpp.o
 HDUS: CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o
 HDUS: CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o
 HDUS: CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o
+HDUS: CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o
+HDUS: CMakeFiles/HDUS.dir/Thread/thread.cpp.o
+HDUS: CMakeFiles/HDUS.dir/general/general.cpp.o
 HDUS: CMakeFiles/HDUS.dir/build.make
+HDUS: /usr/local/lib/libfmt.a
 HDUS: /usr/local/lib/libopencv_gapi.so.4.4.0
 HDUS: /usr/local/lib/libopencv_stitching.so.4.4.0
 HDUS: /usr/local/lib/libopencv_aruco.so.4.4.0
@@ -228,7 +277,7 @@ HDUS: /usr/local/lib/libopencv_photo.so.4.4.0
 HDUS: /usr/local/lib/libopencv_imgproc.so.4.4.0
 HDUS: /usr/local/lib/libopencv_core.so.4.4.0
 HDUS: CMakeFiles/HDUS.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable HDUS"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable HDUS"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HDUS.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -2,23 +2,64 @@
 using namespace cv;
 namespace rm_auto_aim
 {
+    Detector::Detector()
+    {
+        auto model_path = "/home/wpj/RM_Vision_code_US/auto_aim_HDUS/ArmorDetector/model/mlp.onnx";
+        auto label_path = "/home/wpj/RM_Vision_code_US/auto_aim_HDUS/ArmorDetector/model/label.txt";
+        double threshold = 0.7;
+        this->classifier = std::make_unique<rm_auto_aim::NumberClassifier>(model_path, label_path, threshold);
+    }
+    void Detector::run(Mat &img, int color_label, Armor &TargetArmor)
+    {
+#ifdef USING_ROI
+        ImageByROI(img);
+#endif
+        Mat ShowDebug = img.clone();
+        detect_for_target(img, color_label, TargetArmor);
+#ifdef UsingShowImg
+        drawResults(ShowDebug);
+        imshow("Debug", ShowDebug);
+#endif
+    }
+
+    void Detector::ImageByROI(Mat &img)
+    {
+        static Rect imgBound = Rect(0, 0, img.cols, img.rows);
+        if (ArmorState == ARMOR_FOUND)
+        {
+            imgBound = Rect(img.cols / 4, img.rows / 4, img.cols / 4 * 3, img.rows / 4 * 3);
+        }
+        else if (ArmorState == ARMOR_NOT_FOUND)
+        {
+            static int lost_cnt;
+            if (++lost_cnt > 5) // 装甲板丢失5振
+            {
+                imgBound = Rect(0, 0, img.cols, img.rows);
+                lost_cnt = 0;
+            }
+        }
+        img = img(imgBound).clone();
+    }
+
     int Detector::detect_for_target(const Mat &frame, int color_label, Armor &TargetArmor)
     {
         detector(frame, color_label);
-
         //        // 根据confidence排序，并选择最大的
         //        std::sort(armors.begin(), armors.end(), [](const Armor &armor1, const Armor &armor2)
         //        {
         //            return armor1.confidence > armor2.confidence;
         //        });
-
-        // 选择距离中心最近的装甲板
-        std::sort(True_armors.begin(), True_armors.end(), [&frame](const Armor &armor1, const Armor &armor2)
-                  {
+        // 存在装甲板
+        if (True_armors.size() > 0)
+        {
+            // 选择距离中心最近的装甲板
+            std::sort(True_armors.begin(), True_armors.end(), [&frame](const Armor &armor1, const Armor &armor2)
+                      {
             cv::Point2f _center((frame.cols - 1) / 2.0, (frame.rows - 1) / 2.0);
             return cv::norm(armor1.center-_center)>cv::norm(armor2.center-_center); });
 
-        TargetArmor = True_armors[0];
+            TargetArmor = True_armors[0];
+        }
         return 1;
     }
     void Detector::detector(const cv::Mat &input, int enemy_color)
@@ -36,10 +77,13 @@ namespace rm_auto_aim
         matchArmor(True_lights, True_armors);
         if (!True_armors.empty())
         {
-            classifier->extractNumbers(inputs, True_armors);
-            classifier->classify(True_armors);
+            ArmorState = ARMOR_FOUND;
+            // classifier->extractNumbers(inputs, True_armors);
+            // classifier->classify(True_armors);
             // 数字识别
         }
+        else
+            ArmorState = ARMOR_NOT_FOUND;
     }
 
     void Detector::PreProcessImage(const cv::Mat &input, cv::Mat &output, int enemy_color)
@@ -51,7 +95,7 @@ namespace rm_auto_aim
         // 阈值化
         cv::cvtColor(input, grayImg, COLOR_BGR2GRAY);
 
-        threshold(grayImg, bin, 120, 255, THRESH_BINARY);
+        threshold(grayImg, bin, 80, 255, THRESH_BINARY);
         // 通道相间
         Mat color;
         std::vector<Mat> splited;
@@ -194,6 +238,7 @@ namespace rm_auto_aim
 
         return false;
     }
+    // 画出灯条装甲板轮廓
     void Detector::drawResults(cv::Mat &img)
     {
         // Draw Lights
@@ -218,6 +263,26 @@ namespace rm_auto_aim
             cv::putText(
                 img, armor.classfication_result, armor.left_light.top, cv::FONT_HERSHEY_SIMPLEX, 0.8,
                 cv::Scalar(0, 255, 255), 2);
+        }
+    }
+    // 构造窗口显示角度姿态信息
+    void Detector::showDebuginfo(float pitch, float yaw, float dis, int fps)
+    {
+        Mat img = Mat::zeros(250, 430, CV_8UC3);
+
+        if (ArmorState == ARMOR_FOUND)
+        {
+            putText(img, "ARMOR_FOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+            putText(img, format("Dis: %.1f", dis), Point(100, 140), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+            putText(img, format("pitch: %.1f", pitch), Point(100, 70), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+            putText(img, format("yaw: %.1f", yaw), Point(100, 105), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+            putText(img, format("FPS: %.d", fps), Point(100, 175), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+            imshow("Debuginfo", img);
+        }
+        else
+        {
+            putText(img, "ARMOR_NOFOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+            imshow("Debuginfo", img);
         }
     }
 }

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build -I/usr/include/eigen3 -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./AngleSolver/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include -isystem /usr/local/include/opencv4
+CXX_INCLUDES = -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build -I/usr/include/eigen3 -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./AngleSolver/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Thread -I/home/wpj/RM_Vision_code_US/auto_aim_HDUS/. -isystem /usr/local/include/opencv4
 
 CXX_FLAGS = -g
 

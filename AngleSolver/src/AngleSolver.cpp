@@ -34,7 +34,8 @@ void AngleSolver::Init(const std::string &paramPath, float camBiasZ, float camBi
 void AngleSolver::solve_angle(rm_auto_aim::Armor &TargetArmor)
 {
 
-    cv::Mat rVec = cv::Mat::zeros(3, 1, CV_64FC1); // 旋转矩阵
+    cv::Mat rVec = cv::Mat::zeros(3, 1, CV_64FC1); // 旋转向量
+    cv::Mat rMat;                                  // 旋转矩阵
     cv::Mat tVec = cv::Mat::zeros(3, 1, CV_64FC1); // 平移矩阵
     vector<cv::Point2f> D2 = vector<cv::Point2f>{
         TargetArmor.vertex[0],
@@ -56,6 +57,14 @@ void AngleSolver::solve_angle(rm_auto_aim::Armor &TargetArmor)
     double x_pos = tVec.at<double>(0, 0);
     double y_pos = tVec.at<double>(1, 0);
     double z_pos = tVec.at<double>(2, 0);
+    xyz[0] = x_pos;
+    xyz[1] = y_pos;
+    xyz[2] = z_pos;
+
+    Eigen::Matrix3d rMat_eigen;
+
+    Rodrigues(rVec, rMat);
+    cv2eigen(rMat, rMat_eigen);
     // 选用拟合曲线
     this->dis = sqrt(x_pos * x_pos + y_pos * y_pos + z_pos * z_pos);
     if (dis > 5000)
@@ -88,10 +97,13 @@ void AngleSolver::solve_angle(rm_auto_aim::Armor &TargetArmor)
         yaw = -atan(tan_yaw) * 180 / CV_PI;
     }
 }
-// 从这个接口获取角度
-void AngleSolver::GetAngle(float &pitch, float &yaw, float &distance)
+// 从这个接口获取目标角度 以及 水平向量xyz
+void AngleSolver::GetAngle(float &pitch, float &yaw, float &distance, float XYZ[3])
 {
     pitch = this->pitch;
     yaw = this->yaw;
     distance = this->dis;
+    XYZ[0] = xyz[0];
+    XYZ[1] = xyz[1];
+    XYZ[2] = xyz[2];
 }
