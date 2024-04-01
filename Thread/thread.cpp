@@ -2,81 +2,77 @@
 // 生产者
 bool producer(Factory<TaskData> &factory)
 {
-    // 相机类
-    HDURM::HKcam hkcam;
-    hkcam.OpenCam("2BDFA2166410");
-    hkcam.SetParam();
+  // 相机类
+  HDURM::HKcam hkcam;
+  hkcam.OpenCam("2BDFA2166410");
+  hkcam.SetParam();
 
-    while (1)
+  while (1)
+  {
+    // 产生数据
+    TaskData src;
+    auto ret = hkcam.GetFlame(src.img);
+
+    if (!ret)
     {
-        // 产生数据
-        TaskData src;
-        auto ret = hkcam.GetFlame(src.img);
-
-        if (!ret)
-        {
-            break;
-        }
-
-        factory.produce(src);
+      break;
     }
 
-    hkcam.CloseCam();
-    return true;
+    factory.produce(src);
+  }
+
+  hkcam.CloseCam();
+  return true;
 }
 // 消费者
-bool consumer(Factory<TaskData> &factory)
+bool consumer(Factory<TaskData> &factory, Factory<VisionData> &transmit_factory)
 {
-    auto mode = 0, last_mode = 0;
-    // 自瞄类
-    rm_auto_aim::Detector detectorArmor;
-    // 串口发送数据
-    VisionData SendData;
-    SerialPort serial("/dev/ttyUSB0", 115200);
-    // 姿态解算类
-    AngleSolver solver;
-    solver.Init("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/AngleSolver/XML/out_camera_data.xml", 0, 0, 0);
+  auto mode = 0, last_mode = 0;
+  // 自瞄类
+  rm_auto_aim::Detector autoAim;
 
-    while (1)
+  while (1)
+  {
+    TaskData dst;
+    // 发送串口数据
+    VisionData data;
+    // 从缓存区取数据
+    factory.consume(dst);
+
+    // if (mode != last_mode)
+    // {
+    //     fmt::print(fmt::fg(fmt::color::pale_violet_red), "[CONSUMER] Mode switched to {}\n", mode);
+    //     last_mode = mode;
+    // }
+
+    /*-----------------------------------自瞄---------------------------------------------------*/
+    double t1 = (double)cv::getTickCount();
+    autoAim.run(dst.img, rm_auto_aim::BLUE, data);
+    // fmt::print(fmt::fg(fmt::color::blue), "Pitch: {} Yaw: {} Dis: {} \n", data.pitch_angle.f, data.yaw_angle.f, data.dis.f);
+    transmit_factory.produce(data);
+    double t2 = (double)cv::getTickCount();
+    int fps = cv::getTickFrequency() / (t2 - t1);
+    /*-----------------------------------自瞄----------------------------------------------------*/
+  }
+  return true;
+}
+// 串口发送线程
+bool dataTransmitter(Factory<VisionData> &transmit_factory)
+{
+  SerialPort serial("/dev/ttyUSB0", 921600);
+  while (1)
+  {
+    VisionData data;
+    transmit_factory.consume(data);
+    // 若串口离线即初始化失败则跳过数据发送
+    // TODO:使用无串口的模式时会导致此线程死循环，浪费CPU性能
+    if (serial.need_init == true)
     {
-        // 从缓存区取数据
-        TaskData dst;
-        factory.consume(dst);
-
-        rm_auto_aim::Armor targetArmor;
-        float pitch, yaw, dis, xyz[3];
-        mode = dst.mode;
-
-        if (mode != last_mode)
-        {
-            fmt::print(fmt::fg(fmt::color::pale_violet_red), "[CONSUMER] Mode switched to {}\n", mode);
-            last_mode = mode;
-        }
-
-        double t1 = (double)cv::getTickCount();
-
-        detectorArmor.run(dst.img, rm_auto_aim::BLUE, targetArmor);
-        if (detectorArmor.ArmorState == rm_auto_aim::ARMOR_FOUND)
-        {
-            solver.solve_angle(targetArmor);
-            solver.GetAngle(pitch, yaw, dis, xyz);
-            if (fabs(SendData.pitch_angle.f - pitch) > 2 || fabs(SendData.yaw_angle.f - yaw) > 2)
-            {
-                SendData = {pitch, yaw, dis, 0, 1, 0, 0};
-            }
-        }
-        else // 没有找到装甲板
-        {
-            SendData = {0, 0, 0, 0, 0, 0, 0};
-        }
-        serial.send(SendData);
-        double t2 = (double)cv::getTickCount();
-        int fps = cv::getTickFrequency() / (t2 - t1);
-#ifdef UsingShowPYD
-        detectorArmor.showDebuginfo(SendData.pitch_angle.f, SendData.yaw_angle.f, SendData.dis.f, fps);
-        waitKey(1);
-#endif
+      usleep(5000);
+      continue;
     }
-
-    return true;
+    cout << "serial running!!!!" << endl;
+    serial.send(data);
+  }
+  return true;
 }

@@ -16,7 +16,7 @@
 #include <iostream>
 #include <atomic>
 #include <opencv2/opencv.hpp>
-
+#include <fmt/format.h>
 // #include <Eigen/Core>
 
 using namespace std;
@@ -78,5 +78,6 @@ bool Factory<T>::consume(T &product)
     return true;
 }
 bool producer(Factory<TaskData> &factory);
-bool consumer(Factory<TaskData> &task_factory);
+bool consumer(Factory<TaskData> &task_factory, Factory<VisionData> &transmit_factory);
+bool dataTransmitter(Factory<VisionData> &transmit_factory);
 #endif

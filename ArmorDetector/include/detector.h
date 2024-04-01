@@ -7,6 +7,8 @@
 #include "armor.h"
 #include "number_classifier.h"
 #include "debug.h"
+#include "serialport.h"
+#include "AngleSolver.h"
 namespace rm_auto_aim
 {
     class Detector
@@ -30,6 +32,7 @@ namespace rm_auto_aim
             double max_large_center_distance = 4.3;
             // horizontal angle
             double max_angle = 40.0;
+            double max_angle_diff = 25.0;
         };
         Detector();
         std::unique_ptr<NumberClassifier> classifier;
@@ -40,8 +43,10 @@ namespace rm_auto_aim
         LightParams L_Param;
         ArmorParams A_Param;
         DetectorState ArmorState = ARMOR_NOT_FOUND;
+        // 姿态解算类
+        AngleSolver solver;
 
-        void run(cv::Mat &img, int color_label, Armor &TargetArmor);
+        void run(cv::Mat &img, int color_label, VisionData &data);
         void ImageByROI(cv::Mat &img);
         int detect_for_target(const cv::Mat &frame, int color_label, Armor &TargetArmor);
         void detector(const cv::Mat &input, int enemy_color);
@@ -50,7 +55,7 @@ namespace rm_auto_aim
         void matchArmor(std::vector<Light> &lights, std::vector<Armor> &Armors);
         bool containLight(const Light &light_1, const Light &light_2, const std::vector<Light> &lights);
         void drawResults(cv::Mat &img);
-        void showDebuginfo(float pitch, float yaw, float dis, int fps);
+        void showDebuginfo(float pitch, float yaw, float dis, float XYZ[3]);
 
     private:
         bool isLight(const Light &light);

@@ -7,6 +7,8 @@ program_name=HDUS
 cd /home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/
 #make clean && 
 make -j12
+
+/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/HDUS
 while [ 1 ] 
 do 
     count=`ps -ef | grep $program_name | grep -v "grep" | wc -l`

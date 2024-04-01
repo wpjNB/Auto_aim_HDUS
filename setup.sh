@@ -7,4 +7,6 @@ cd $project_path
 mkdir -p build
 cd build
 cmake ..
-make -j4
+make -j12
+
+/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/HDUS

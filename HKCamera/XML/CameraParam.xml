@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <opencv_storage>
     <!--图像宽度:步进16-->
-    <nWidthValue>1080</nWidthValue>
+    <nWidthValue>1280</nWidthValue>
     <!--图像高度：步进2-->
     <nHeightValue>720</nHeightValue>
     <!--水平偏移-->
@@ -31,7 +31,7 @@
     <!--曝光时间-->
     <fExposureTime>5000.0000</fExposureTime>
     <!--增益-->
-    <fGainvalue>8.0000</fGainvalue>
+    <fGainvalue>16.0000</fGainvalue>
     <!--自动增益-->
     <nGainAuto>0</nGainAuto>
     <!--黑电平-->
