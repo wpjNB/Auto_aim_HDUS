@@ -25,13 +25,13 @@
     <!--采集触发帧率-->
     <nAcquisitionBurstFrameCountValue>1</nAcquisitionBurstFrameCountValue>
     <!--设置采集帧率-->
-    <fFPSValue>200.0000</fFPSValue>
+    <fFPSValue>250.0000</fFPSValue>
     <!--设置使能采集帧率控制-->
     <nSetBoolValue3>1</nSetBoolValue3>
     <!--曝光时间-->
     <fExposureTime>5000.0000</fExposureTime>
     <!--增益-->
-    <fGainvalue>16.0000</fGainvalue>
+    <fGainvalue>8.0000</fGainvalue>
     <!--自动增益-->
     <nGainAuto>0</nGainAuto>
     <!--黑电平-->

@@ -41,15 +41,27 @@
    - 相机的曝光与增益,参数
 
    - 相机内参矩阵与外参矩阵XML路径更改
-   
+
    - 相机坐标系到枪管坐标系水平(X,Y,Z)偏移量与旋转(Pitch,Yaw)偏移量
-   
+
    - 传统视觉识别参数，如二值化阈值,灯条装甲板几何约束参数
-   
+
    - USB虚拟串口设备名字
-   
+
    - inference model 路径更改
-   
+
+   - 根据比赛场地调整曝光和增益，主要是曝光
+
+   - 静止击打装甲板（调整bias_pitch和bias_yaw)，如果近低远高就减小摩擦系数抬高pitch
+
+   - 取消所有调试窗口，在debug.h头文件
+
+   - 调整开火策略，决定自瞄发射的速度。
+
+   - 反小陀螺调参，主要调延迟时间，要是角速度非常不准就重新适当调整曝光和增益
+
+   - 
+
      
 
 5. **设计模式：**
@@ -72,6 +84,74 @@
 - 
 
 ## 3.文件结构
+
+```
+.
+├── AngleSolver          姿态解算        
+│   ├── include
+│   │   └── AngleSolver.h
+│   ├── src
+│   │   └── AngleSolver.cpp
+│   └── XML
+│       ├── out_camera_data1.xml
+│       ├── out_camera_data_pre.xml
+│       └── out_camera_data.xml
+├── ArmorDetector        自瞄
+│   ├── include
+│   │   ├── armor.h
+│   │   ├── detector.h
+│   │   └── number_classifier.h
+│   ├── model
+│   │   ├── fc.onnx
+│   │   ├── label.txt
+│   │   └── mlp.onnx
+│   └── src
+│       ├── detector.cpp
+│       └── number_classifier.cpp
+├── CMakeLists.txt
+├── data
+│   └── README.md
+├── debug.h              宏定义开关
+├── docs
+│   └── image.png
+├── general
+│   ├── general.cpp
+│   └── general.h
+├── HKCamera             相机
+│   ├── include
+│   │   ├── Camera.h
+│   │   ├── CameraParams.h
+│   │   ├── MvCameraControl.h
+│   │   ├── MvErrorDefine.h
+│   │   └── PixelType.h
+│   ├── libs
+│   │   └── linux
+│   │       ├── libFormatConversion.so
+│   │       ├── libMediaProcess.so
+│   │       ├── libMvCameraControl.so
+│   │       ├── libMVGigEVisionSDK.so
+│   │       ├── libMVRender.so
+│   │       └── libMvUsb3vTL.so
+│   ├── src
+│   │   └── Camera.cpp
+│   └── XML
+│       └── CameraParam.xml
+├── main.cpp
+├── README.md
+├── SerialPort
+│   ├── include
+│   │   ├── CRC_Check.h
+│   │   └── serialport.h
+│   └── src
+│       ├── CRC_Check.cpp
+│       └── serialport.cpp
+├── setup.sh
+├── Thread
+│   ├── thread.cpp
+│   └── thread.h
+├── ttyUSB.sh
+└── WatchDDog.sh
+```
 
 
 
@@ -169,3 +249,5 @@ Alias=rc-local.service
    
 
 ## 6.总结与展望
+- 反小陀螺
+- 预测装甲板(敌方旋转与平移)EKF(扩展卡尔曼滤波)

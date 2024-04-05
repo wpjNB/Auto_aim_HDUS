@@ -321,7 +321,7 @@ int SerialPort::set_Bit()
  *@param   data   类型  VisionData(union)  包含pitch,yaw,distance
  *@param   flag   类型  char   用于判断是否瞄准目标，0代表没有，1代表已经瞄准
  */
-void SerialPort::TransformData(const VisionData &data)
+void SerialPort::TransformData(const VisionSendData &data)
 {
   Tdata[0] = 0xA5;
 
@@ -444,7 +444,7 @@ bool SerialPort::getSpeed(unsigned char *data)
 //////////////////////////////////////////////
 
 // 发送数据函数
-void SerialPort::send(const VisionData &data)
+void SerialPort::send(const VisionSendData &data)
 {
   TransformData(data);
   auto write_stauts = write(fd, Tdata, 22);

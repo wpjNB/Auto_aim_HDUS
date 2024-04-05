@@ -21,7 +21,6 @@
 
 using namespace std;
 using namespace cv;
-
 template <typename T>
 class Factory
 {
@@ -77,7 +76,22 @@ bool Factory<T>::consume(T &product)
 
     return true;
 }
-bool producer(Factory<TaskData> &factory);
-bool consumer(Factory<TaskData> &task_factory, Factory<VisionData> &transmit_factory);
-bool dataTransmitter(Factory<VisionData> &transmit_factory);
+
+class ThreadManager
+{
+private:
+    // 相机类
+    HDURM::HKcam hkcam;
+    SerialPort serial;
+    std::unique_ptr<rm_auto_aim::Detector> autoAim;
+
+public:
+    ThreadManager() = default;
+
+    void InitManager(const std::string &config_file_path);
+    bool producer(Factory<TaskData> &factory);
+    bool consumer(Factory<TaskData> &factory, Factory<VisionSendData> &transmit_factory);
+    bool dataTransmitter(Factory<VisionSendData> &transmit_factory);
+};
+
 #endif

@@ -126,9 +126,9 @@ void AngleSolver::solve_angle(rm_auto_aim::Armor &TargetArmor)
 // 从这个接口获取目标角度 以及 水平向量xyz
 void AngleSolver::GetAngle(float &pitch, float &yaw, float &distance, float XYZ[3])
 {
-    pitch = this->pitch;
-    yaw = this->yaw;
-    distance = this->dis;
+    pitch = this->pitch + bias_pitch;
+    yaw = this->yaw + bias_yaw;
+    distance = this->dis + bias_dis;
     XYZ[0] = xyz[0];
     XYZ[1] = xyz[1];
     XYZ[2] = xyz[2];

@@ -75,7 +75,7 @@ typedef struct
     int isFindTarget;        // 当识别的图片范围内有目标且电控发来的信号不为0x00（关闭视觉）置为1，否则置0
     int isSpinning;          // 目标是否处于陀螺状态
     int ismiddle;            // 设置1表示目标进入了可以开火的范围，设置0则表示目标尚未进入可开火的范围，默认置0
-} VisionData;
+} VisionSendData;
 
 class SerialPort
 {
@@ -93,16 +93,15 @@ public:
     float acc[3];             // 加速度
     float gyro[3];            // 角速度
     float bullet_speed;
-    SerialPort(const string ID, const int BUAD);
-    SerialPort(char *);
+    SerialPort(const string ID = "/dev/ttyUSB0", const int BUAD = 921600);
     bool initSerialPort();
     bool get_Mode();
     bool withoutSerialPort();
     Device getDeviceInfo(string path);
     Device setDeviceByID(std::vector<Device> devices);
     std::vector<Device> listPorts();
-    void TransformData(const VisionData &data); // 主要方案
-    void send(const VisionData &data);
+    void TransformData(const VisionSendData &data); // 主要方案
+    void send(const VisionSendData &data);
     void ReadTest();
     void set_Brate();
     int set_Bit();

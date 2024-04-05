@@ -15,7 +15,7 @@ using namespace std;
 class AngleSolver
 {
 private:
-    float pitch, yaw, dis;
+    float pitch, yaw, dis, bias_yaw, bias_pitch, bias_dis;
     std::vector<cv::Point3f> BigArmorPoint3D;
     std::vector<cv::Point3f> SmallArmorPoint3D;
     cv::Mat camera_matrix = cv::Mat(3, 3, CV_32FC1);

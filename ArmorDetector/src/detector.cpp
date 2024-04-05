@@ -2,13 +2,30 @@
 using namespace cv;
 namespace rm_auto_aim
 {
-  Detector::Detector()
+  Detector::Detector(const std::string &config_file_path)
   {
-    auto model_path =
-        "/home/wpj/RM_Vision_code_US/auto_aim_HDUS/ArmorDetector/model/mlp.onnx";
-    auto label_path =
-        "/home/wpj/RM_Vision_code_US/auto_aim_HDUS/ArmorDetector/model/label.txt";
-    double threshold = 0.7;
+    cv::FileStorage config(config_file_path, cv::FileStorage::READ);
+    // 初始化灯条参数
+    config["detector"]["min_lightness"] >> min_lightness;
+    config["detector"]["light_params"]["min_ratio"] >> L_Param.min_ratio;
+    config["detector"]["light_params"]["max_ratio"] >> L_Param.max_ratio;
+    config["detector"]["light_params"]["max_angle"] >> L_Param.max_angle;
+    // 初始化装甲板参数
+    config["detector"]["armor_params"]["min_light_ratio"] >> A_Param.min_light_ratio;
+    config["detector"]["armor_params"]["min_small_center_distance"] >> A_Param.min_small_center_distance;
+    config["detector"]["armor_params"]["max_small_center_distance"] >> A_Param.max_small_center_distance;
+    config["detector"]["armor_params"]["min_large_center_distance"] >> A_Param.min_large_center_distance;
+    config["detector"]["armor_params"]["max_large_center_distance"] >> A_Param.max_large_center_distance;
+    config["detector"]["armor_params"]["max_angle"] >> A_Param.max_angle;
+    config["detector"]["armor_params"]["max_angle_diff"] >> A_Param.max_angle_diff;
+
+    // 初始化分类器
+    std::string model_path, label_path;
+    std::vector<std::string> ignore_classes;
+    double threshold;
+    config["detector"]["classifier_params"]["model_path"] >> model_path;
+    config["detector"]["classifier_params"]["label_path"] >> label_path;
+    config["detector"]["classifier_params"]["threshold"] >> threshold;
     this->classifier = std::make_unique<rm_auto_aim::NumberClassifier>(
         model_path, label_path, threshold);
     // 参数更改仍不方便，可换用XML或YAML形式读取参数方便调参
@@ -16,7 +33,7 @@ namespace rm_auto_aim
                 "out_camera_data1.xml",
                 0, -137.2, -50, 9.8); // 相机坐标系到枪管坐标系下对应X,Y,Z轴偏移量 单位mm
   }
-  void Detector::run(Mat &img, int color_label, VisionData &data)
+  void Detector::run(Mat &img, int color_label, VisionSendData &data)
   {
 #ifdef USING_ROI
     ImageByROI(img);
@@ -73,8 +90,7 @@ namespace rm_auto_aim
     img = img(imgBound).clone();
   }
 
-  int Detector::detect_for_target(const Mat &frame, int color_label,
-                                  Armor &TargetArmor)
+  int Detector::detect_for_target(const Mat &frame, int color_label, Armor &TargetArmor)
   {
     detector(frame, color_label);
     //        // 根据confidence排序，并选择最大的
@@ -105,15 +121,14 @@ namespace rm_auto_aim
   void Detector::detector(const cv::Mat &input, int enemy_color)
   {
     Mat inputs = input.clone();
-    debug = input.clone();
     // 预处理
     PreProcessImage(inputs, binary_img, enemy_color);
 
     // 查找并筛选灯条
-    FindLights(binary_img, True_lights);
+    FindLights(inputs, binary_img, True_lights);
 
     // 查找装甲板
-    matchArmor(True_lights, True_armors);
+    matchArmor(True_lights, True_armors, enemy_color);
     if (!True_armors.empty())
     {
       ArmorState = ARMOR_FOUND;
@@ -132,59 +147,80 @@ namespace rm_auto_aim
   void Detector::PreProcessImage(const cv::Mat &input, cv::Mat &output,
                                  int enemy_color)
   {
-    Mat element0 = getStructuringElement(MORPH_ELLIPSE, Size(7, 7));
-    Mat element1 = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
-    Mat element2 = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
-    Mat grayImg, bin;
-    // 阈值化
-    cv::cvtColor(input, grayImg, COLOR_BGR2GRAY);
 
-    threshold(grayImg, bin, 90, 255, THRESH_BINARY);
-    // 通道相间
-    Mat color;
-    std::vector<Mat> splited;
-    split(input, splited);
-    if (enemy_color == BLUE)
-    {
-      subtract(splited[0], splited[2], color);
-      threshold(color, color, 46, 255, THRESH_BINARY); // blue
-    }
-    else if (enemy_color == RED)
-    {
-      subtract(splited[2], splited[0], color);
-      threshold(color, color, 40, 255, THRESH_BINARY); // red
-    }
-    dilate(color, color, element0);
-    // 进行与运算
-    output = bin & color; // _max_color获得了清晰的二值图
-    dilate(output, output, element2);
+    Mat grayImg, bin;
+    // 灰度处理+阈值化
+    cv::cvtColor(input, grayImg, COLOR_BGR2GRAY);
+    threshold(grayImg, output, min_lightness, 255, THRESH_BINARY);
+    // Mat element0 = getStructuringElement(MORPH_ELLIPSE, Size(7, 7));
+    // Mat element1 = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
+    // Mat element2 = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+    // // 通道相间
+    // Mat color;
+    // std::vector<Mat> splited;
+    // split(input, splited);
+    // if (enemy_color == BLUE)
+    // {
+    //   subtract(splited[0], splited[2], color);
+    //   threshold(color, color, 46, 255, THRESH_BINARY); // blue
+    // }
+    // else if (enemy_color == RED)
+    // {
+    //   subtract(splited[2], splited[0], color);
+    //   threshold(color, color, 40, 255, THRESH_BINARY); // red
+    // }
+    // dilate(color, color, element0);
+    // // 进行与运算
+    // output = bin & color; // _max_color获得了清晰的二值图
+    // dilate(output, output, element2);
   }
-  void Detector::FindLights(const cv::Mat &binaryImg,
-                            std::vector<Light> &lights)
+  void Detector::FindLights(const cv::Mat &rbg_img, const cv::Mat &binaryImg, std::vector<Light> &lights)
   {
     lights.clear();
     using std::vector;
     vector<vector<cv::Point>> contours;
     vector<cv::Vec4i> hierarchy;
-    cv::findContours(binary_img, contours, hierarchy, cv::RETR_EXTERNAL,
-                     cv::CHAIN_APPROX_SIMPLE);
+    cv::findContours(binary_img, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     for (const auto &contour : contours)
     {
       // 得到面积率选
       float ContourArea = contourArea(contour);
-      if (contour.size() < 2 || ContourArea < L_Param.LightMinArea)
+      if (contour.size() < 5 || ContourArea < L_Param.LightMinArea)
         continue;
       auto r_rect = cv::minAreaRect(contour);
       auto light = Light(r_rect);
       if (isLight(light))
       {
-        lights.emplace_back(light);
+        auto rect = light.boundingRect();
+        if ( // Avoid assertion failed
+            0 <= rect.x && 0 <= rect.width && rect.x + rect.width <= rbg_img.cols && 0 <= rect.y &&
+            0 <= rect.height && rect.y + rect.height <= rbg_img.rows)
+        {
+          int sum_r = 0, sum_b = 0;
+          auto roi = rbg_img(rect);
+          // Iterate through the ROI
+          for (int i = 0; i < roi.rows; i++)
+          {
+            for (int j = 0; j < roi.cols; j++)
+            {
+              if (cv::pointPolygonTest(contour, cv::Point2f(j + rect.x, i + rect.y), false) >= 0)
+              {
+                // if point is inside contour
+                sum_r += roi.at<cv::Vec3b>(i, j)[2];
+                sum_b += roi.at<cv::Vec3b>(i, j)[0];
+              }
+            }
+          }
+          // Sum of red pixels > sum of blue pixels ?
+          light.color = sum_r > sum_b ? RED : BLUE;
+          lights.emplace_back(light);
+        }
       }
     }
   }
-  void Detector::matchArmor(std::vector<Light> &lights,
-                            std::vector<Armor> &Armors)
+
+  void Detector::matchArmor(const std::vector<Light> &lights, std::vector<Armor> &Armors, int enemy_color)
   {
     Armors.clear();
     // Loop all the pairing of lights
@@ -192,6 +228,12 @@ namespace rm_auto_aim
     {
       for (auto light_2 = light_1 + 1; light_2 != lights.end(); light_2++)
       {
+
+        if (light_1->color != enemy_color || light_2->color != enemy_color)
+        {
+          continue;
+        }
+
         if (containLight(*light_1, *light_2, lights))
         {
           continue;
@@ -249,10 +291,11 @@ namespace rm_auto_aim
     cv::Point2f diff = light_1.center - light_2.center;
     float angle = std::abs(std::atan(diff.y / diff.x)) / CV_PI * 180;
     bool angle_ok = angle < A_Param.max_angle;
-    // 添加灯条角度差（平行性）
-    float angle_diff = std::abs(light_1.angle - light_2.angle);
-    bool angle_diff_ok = angle_diff < A_Param.max_angle_diff;
-    bool is_armor = light_ratio_ok && center_distance_ok && angle_ok && angle_diff_ok;
+    // // 添加 灯条角度差（平行性）效果差
+    // float angle_diff = std::abs(light_1.angle - light_2.angle);
+    // bool angle_diff_ok = angle_diff < A_Param.max_angle_diff;
+    // fmt::print("light_1.angle:{},light_2.angle:{}\n", light_1.angle, light_2.angle);
+    bool is_armor = light_ratio_ok && center_distance_ok && angle_ok;
     armor.armor_type =
         center_distance > A_Param.min_large_center_distance ? LARGE : SMALL;
     // Fill in debug information
@@ -353,4 +396,5 @@ namespace rm_auto_aim
       imshow("Debuginfo", img);
     }
   }
-} // namespace rm_auto_aim
+}
+// namespace rm_vision
