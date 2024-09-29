@@ -1,0 +1,66 @@
+%YAML:1.0
+
+---
+# 图像宽度:步进16
+nWidthValue: 1280
+
+# 图像高度：步进2
+nHeightValue: 720
+
+# 水平偏移
+nOffsetXValue: 0
+
+# 垂直偏移
+nOffsetYValue: 152
+
+# 水平镜像
+bSetBoolValue5: 0
+
+# 垂直镜像
+bSetBoolValue1: 0
+
+# 像素格式
+PixelFormat: 0x02180015
+
+# 水平合并
+nBinningHorizontal: 1
+
+# 垂直合并
+nBinningVertical: 1
+
+# 水平下采样
+nDecimationHorizontal: 1
+
+# 垂直下采样
+nDecimationVertical: 1
+
+# 采集触发帧率
+nAcquisitionBurstFrameCountValue: 1
+
+# 设置采集帧率
+fFPSValue: 404.0000
+
+# 设置使能采集帧率控制
+nSetBoolValue3: 1
+
+# 曝光时间
+fExposureTime: 30000.0000
+
+# 增益
+fGainValue: 10.0000
+
+# 自动增益
+nGainAuto: 0
+
+# 黑电平
+nBlackLevelValue: 30
+
+# 黑电平使能
+bSetBoolValue2: 1
+
+# 伽马校正
+fGammaValue: 0.7
+
+# 伽马校正使能
+bSetBoolValue4: 1
+...

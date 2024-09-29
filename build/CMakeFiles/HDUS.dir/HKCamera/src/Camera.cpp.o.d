@@ -362,4 +362,7 @@ CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o: \
  /usr/local/include/opencv4/opencv2/stitching/detail/camera.hpp \
  /usr/local/include/opencv4/opencv2/video.hpp \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
- /usr/local/include/opencv4/opencv2/video/background_segm.hpp
+ /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
+ /usr/local/include/fmt/format.h /usr/local/include/fmt/core.h \
+ /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
+ /usr/local/include/fmt/color.h /usr/local/include/fmt/format.h

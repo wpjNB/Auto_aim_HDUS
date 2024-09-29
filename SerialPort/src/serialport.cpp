@@ -4,121 +4,7 @@ SerialPort::SerialPort(const string ID, const int BAUD)
 {
   serial_id = ID;
   baud = BAUD;
-  initSerialPort();
-}
-
-/**
- * @brief 返回所有可用串口
- * **/
-std::vector<Device> SerialPort::listPorts()
-{
-  vector<Device> devices;
-  for (auto port_dir : DEFAULT_PORT)
-  {
-    std::vector<string> availible_path;
-    auto general_path = "/sys/class/tty/" + port_dir;
-    for (int i = 0; i < MAX_ITER; i++)
-    {
-      auto tty_dir_path = general_path + to_string(i);
-
-      if (access(tty_dir_path.c_str(), F_OK) != -1)
-      {
-        Device dev;
-        availible_path.push_back(tty_dir_path);
-        auto real_path = symbolicToReal(tty_dir_path);
-        string info_path;
-        // 需注意ttyACM与ttyUSB的uevent文件实际深度不同
-        if (port_dir == "ttyACM")
-          info_path = getParent(getParent(getParent(real_path)));
-        else if (port_dir == "ttyUSB")
-          info_path = getParent(getParent(getParent(getParent(real_path))));
-        dev = getDeviceInfo(info_path);
-        dev.alias = port_dir + to_string(i);
-        dev.path = tty_dir_path;
-        devices.push_back(dev);
-      }
-    }
-  }
-  return devices;
-}
-
-/**
- * @brief 获取串口有关信息
- * @return 串口类
- * **/
-Device SerialPort::getDeviceInfo(string path)
-{
-  Device dev;
-  auto uevent_path = path + "/uevent";
-  auto texts = readLines(uevent_path);
-  for (auto text : texts)
-  {
-    int equal_idx = text.find("=");
-    string config_type = text.substr(0, equal_idx);
-    string config_info = text.substr(equal_idx + 1);
-
-    if (config_type == "PRODUCT")
-    {
-      dev.id = config_info;
-    }
-  }
-  return dev;
-}
-
-/**
- * @brief 通过ID设置选取串口
- * @return 串口
- * **/
-Device SerialPort::setDeviceByID(std::vector<Device> devices)
-{
-  for (auto dev : devices)
-  {
-    if (dev.id == serial_id)
-      return dev;
-  }
-  return Device();
-}
-
-////////////////////////////////////////////////////////////////
-/**
- *@brief   获取模式命令
- */
-bool SerialPort::get_Mode()
-{
-  int bytes;
-  char *name = ttyname(fd);
-  if (name == NULL)
-    printf("tty is null\n");
-  int result = ioctl(fd, FIONREAD, &bytes);
-  if (result == -1)
-    return false;
-
-  if (bytes == 0)
-  {
-    //    cout << "缓冲区为空" << endl;
-    return false;
-  }
-  // bytes = read(fd, rdata, 49);
-  bytes = read(fd, rdata, 50);
-  // bytes = read(fd, rdata, 45);
-  // cout<<bytes<<endl;
-
-  if (rdata[0] == 0xA5 && Verify_CRC8_Check_Sum(rdata, 3))
-  {
-    mode = rdata[1];
-    getQuat(&rdata[3]);
-    getGyro(&rdata[19]);
-    getAcc(&rdata[31]);
-    getSpeed(&rdata[43]);
-    Verify_CRC16_Check_Sum(rdata, 50);
-    // TODO:接收下位机发送的弹速
-  }
-  // mode = rdata[0];
-  // getQuat(&rdata[1]);
-  // getGyro(&rdata[17]);
-  // getAcc(&rdata[29]);
-  // getSpeed(&rdata[41]);
-  return true;
+  initSerialPort(ID);
 }
 
 /**
@@ -132,22 +18,49 @@ bool SerialPort::get_Mode()
  *@param  parity   类型  int  效验类型 取值为N,E,O,S
  *@param  portchar 类型  char* 串口路径
  */
-bool SerialPort::initSerialPort()
+// dev_name, eg: "/dev/ttyUSB0" or "/dev/ttyS0", etc
+bool SerialPort::open_port(std::string dev_name)
 {
-  fd = open(serial_id.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+  // Open the serial port. Change device path as needed
+  // Currently set to a standard FTDI USB-UART cable type device
+  std::string device_name = dev_name;
+  fd = open(device_name.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+
+  if (fd == -1)
+  {
+    perror(device_name.c_str());
+    return false;
+  }
+  return true;
+}
+bool SerialPort::initSerialPort(std::string dev_name)
+{
 
   speed = baud;
   databits = 8;
   stopbits = 1;
   parity = 'N';
-
-  if (fd == -1)
+  if (open_port(dev_name))
   {
-    perror(serial_id.c_str());
+    std::cout << "Opening " << dev_name.c_str() << "..." << std::endl;
+  }
+  else if (open_port("/dev/ttyACM1"))
+  {
+    std::cout << "Opening " << "/dev/ttyACM1" << "..." << std::endl;
+  }
+  else if (open_port("/dev/ttyUSB0"))
+  {
+    std::cout << "Opening " << "/dev/ttyUSB0" << "..." << std::endl;
+  }
+  else if (open_port("/dev/ttyUSB1"))
+  {
+    std::cout << "Opening " << "/dev/ttyUSB1" << "..." << std::endl;
+  }
+  else
+  {
     return false;
   }
 
-  std::cout << "Opening " << serial_id << "..." << std::endl;
   set_Brate();
 
   if (set_Bit() == FALSE)
@@ -338,19 +251,10 @@ void SerialPort::TransformData(const VisionSendData &data)
   Tdata[9] = data.yaw_angle.c[2];
   Tdata[10] = data.yaw_angle.c[3];
 
-  Tdata[11] = data.dis.c[0];
-  Tdata[12] = data.dis.c[1];
-  Tdata[13] = data.dis.c[2];
-  Tdata[14] = data.dis.c[3];
-
-  Tdata[15] = data.isSwitched;
-  Tdata[16] = data.isFindTarget;
-
-  Tdata[17] = data.isSpinning;
-  Tdata[18] = data.ismiddle;
-  Tdata[19] = 0x00;
-
-  Append_CRC16_Check_Sum(Tdata, 22);
+  Tdata[11] = data.isFindTarget;
+  Tdata[12] = (int)data.state;
+  Tdata[13] = 0x00;
+  Append_CRC16_Check_Sum(Tdata, 16);
 }
 
 /////////////////////////////////////////////
@@ -367,65 +271,6 @@ float SerialPort::exchange_data(unsigned char *data)
   return float_data;
 };
 
-/**
- * @brief 解算四元数数据
- *
- * @param data 四元数首地址指针
- * @return
- */
-bool SerialPort::getQuat(unsigned char *data)
-{
-  unsigned char *f1 = &data[0];
-  unsigned char *f2 = &data[4];
-  unsigned char *f3 = &data[8];
-  unsigned char *f4 = &data[12];
-
-  quat[0] = exchange_data(f1);
-  quat[1] = exchange_data(f2);
-  quat[2] = exchange_data(f3);
-  quat[3] = exchange_data(f4);
-  // fmt::print(fmt::fg(fmt::color::white), "quat: {} {} {} {} \n", quat[0], quat[1], quat[2], quat[3]);
-  return true;
-}
-
-/**
- * @brief 解算角速度数据
- *
- * @param data 角速度首地址指针
- * @return
- */
-bool SerialPort::getGyro(unsigned char *data)
-{
-  unsigned char *f1 = &data[0];
-  unsigned char *f2 = &data[4];
-  unsigned char *f3 = &data[8];
-
-  gyro[0] = exchange_data(f1);
-  gyro[1] = exchange_data(f2);
-  gyro[2] = exchange_data(f3);
-
-  // fmt::print(fmt::fg(fmt::color::white), "gyro: {} {} {} \n", gyro[0], gyro[1], gyro[2]);
-  return true;
-}
-
-/**
- * @brief 解算加速度数据
- *
- * @param data 加速度首地址指针
- * @return
- */
-bool SerialPort::getAcc(unsigned char *data)
-{
-  unsigned char *f1 = &data[0];
-  unsigned char *f2 = &data[4];
-  unsigned char *f3 = &data[8];
-
-  acc[0] = exchange_data(f1);
-  acc[1] = exchange_data(f2);
-  acc[2] = exchange_data(f3);
-  // fmt::print(fmt::fg(fmt::color::white), "acc: {} {} {} \n", acc[0], acc[1], acc[2]);
-  return true;
-}
 /**
  * @brief 解算速度数据
  *
@@ -447,47 +292,46 @@ bool SerialPort::getSpeed(unsigned char *data)
 void SerialPort::send(const VisionSendData &data)
 {
   TransformData(data);
-  auto write_stauts = write(fd, Tdata, 22);
+  auto write_stauts = write(fd, Tdata, 16);
 }
-// 接受数据函数
-void SerialPort::ReadTest()
-{
-  lseek(fd, 0, SEEK_SET); // 调整文件指针位置到文件头
 
-  unsigned char rdata[255];
-  int ret = read(fd, rdata, 22);
-  cout << ret << endl;
-  // if (rdata[0] == 0xA5 && Verify_CRC8_Check_Sum(rdata, 3))
-  // {
-  float pitch = exchange_data(&Tdata[3]);
-  // fmt::print(fmt::fg(fmt::color::blue), "pitch: {} \n", pitch);
-  // }
-}
 // 关闭通讯协议接口
 void SerialPort::closePort() { close(fd); }
-bool SerialPort::get_Mode1()
+// 数据解析函数 (根据帧类型解析不同的数据)
+void parse_data(uint8_t *data, size_t length, uint8_t type)
 {
-  int bytes;
-  char *name = ttyname(fd);
-  if (name != NULL)
-    printf("device:%s\n", name);
-  else
-    printf("tty is null\n");
-  int result = ioctl(fd, FIONREAD, &bytes);
-  if (result == -1)
-    return false;
 
-  if (bytes == 0)
+  // 根据需要继续解析其他类型的数据
+}
+bool SerialPort::ReceiveData(VisionRecvData &visionData)
+{
+  uint8_t buffer[10];                   // 缓冲区
+  int read_bytes = read(fd, buffer, 1); // 读取帧头
+  if (read_bytes == 1 && buffer[0] == FRAME_HEAD)
   {
-    //        cout << "缓冲区为空" << endl;
-    return true;
-  }
+    uint8_t type;
+    read(fd, &type, 1); // 读取数据类型
+    if (type != TYPE_AHRS)
+      return;
+    uint8_t data_len;
+    read(fd, &data_len, 1); // 读取数据长度
+    if (data_len != AHRS_LEN)
+      return;
+    uint8_t check[4];
+    read(fd, check, 4); // 读取校验码
+    uint8_t data[256];
+    read(fd, data, data_len); // 读取数据内容
 
-  bytes = read(fd, rdata, 22);
-
-  if (rdata[0] == 0xA5 && Verify_CRC8_Check_Sum(rdata, 3))
-  {
-    cout << "ok!!!!";
+    // 数据解析
+    if (type == TYPE_AHRS && data_len == AHRS_LEN)
+    {
+      float ahrs_data[10];
+      memcpy(ahrs_data, data, sizeof(ahrs_data));
+      visionData.gimbal_roll = ahrs_data[3];
+      visionData.gimbal_pitch = ahrs_data[4];
+      visionData.gimbal_yaw = ahrs_data[5];
+      printf("AHRS Data: Roll=%f, Pitch=%f, Heading=%f\n", ahrs_data[3], ahrs_data[4], ahrs_data[5]);
+      return true;
+    }
   }
-  return true;
 }

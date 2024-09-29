@@ -26,47 +26,20 @@ namespace rm_auto_aim
     config["detector"]["classifier_params"]["model_path"] >> model_path;
     config["detector"]["classifier_params"]["label_path"] >> label_path;
     config["detector"]["classifier_params"]["threshold"] >> threshold;
-    this->classifier = std::make_unique<rm_auto_aim::NumberClassifier>(
-        model_path, label_path, threshold);
-    // 参数更改仍不方便，可换用XML或YAML形式读取参数方便调参
-    solver.Init("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/AngleSolver/XML/"
-                "out_camera_data1.xml",
-                0, -137.2, -50, 9.8); // 相机坐标系到枪管坐标系下对应X,Y,Z轴偏移量 单位mm
+    this->classifier = std::make_unique<rm_auto_aim::NumberClassifier>(model_path, label_path, threshold);
   }
-  void Detector::run(Mat &img, int color_label, VisionSendData &data)
+
+  void Detector::run(Mat &img, int color_label)
   {
 #ifdef USING_ROI
     ImageByROI(img);
 #endif
-    Mat ShowDebug = img.clone();
-    Armor TargetArmor;
-    float pitch, yaw, dis, xyz[3];
-    detect_for_target(img, color_label, TargetArmor); // 筛选目标装甲板
-    if (ArmorState == ARMOR_FOUND)
-    {
-      solver.solve_angle(TargetArmor);
-      solver.GetAngle(pitch, yaw, dis, xyz);
-      if (fabs(pitch) > 2 ||
-          fabs(yaw) > 1.5 || fabs(dis) > 4)
-      {
-        data = {pitch, yaw, dis, 0, 1, 0, 0};
-      }
-      else
-      {
-        data = {0, 0, 0, 0, 1, 0, 0};
-      }
-    }
-    else // 没有找到装甲板
-    {
-      data = {0, 0, 0, 0, 0, 0, 0};
-    }
-
+    detector(img, color_label);
 #ifdef UsingShowImg
-    drawResults(ShowDebug);
-    imshow("binary_img", binary_img);
-    imshow("Debug", ShowDebug);
-    showDebuginfo(data.pitch_angle.f, data.yaw_angle.f, data.dis.f, xyz);
-    waitKey(1);
+    drawResults(img);
+    cv::waitKey(1);
+    // fmt::print(fmt::fg(fmt::color::black), "...test... !!!!!!!!!!\n");
+    imshow("test", img);
 #endif
   }
 
@@ -129,6 +102,13 @@ namespace rm_auto_aim
 
     // 查找装甲板
     matchArmor(True_lights, True_armors, enemy_color);
+
+    for (auto &armor : True_armors)
+    {
+      Point2f _center((input.cols - 1) / 2, (input.rows - 1) / 2);
+      armor.distance_to_image_center = norm(armor.center - _center);
+    }
+
     if (!True_armors.empty())
     {
       ArmorState = ARMOR_FOUND;
@@ -138,7 +118,6 @@ namespace rm_auto_aim
       {
         ArmorState = ARMOR_NOT_FOUND;
       }
-      // 数字识别
     }
     else
       ArmorState = ARMOR_NOT_FOUND;
@@ -152,27 +131,6 @@ namespace rm_auto_aim
     // 灰度处理+阈值化
     cv::cvtColor(input, grayImg, COLOR_BGR2GRAY);
     threshold(grayImg, output, min_lightness, 255, THRESH_BINARY);
-    // Mat element0 = getStructuringElement(MORPH_ELLIPSE, Size(7, 7));
-    // Mat element1 = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
-    // Mat element2 = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
-    // // 通道相间
-    // Mat color;
-    // std::vector<Mat> splited;
-    // split(input, splited);
-    // if (enemy_color == BLUE)
-    // {
-    //   subtract(splited[0], splited[2], color);
-    //   threshold(color, color, 46, 255, THRESH_BINARY); // blue
-    // }
-    // else if (enemy_color == RED)
-    // {
-    //   subtract(splited[2], splited[0], color);
-    //   threshold(color, color, 40, 255, THRESH_BINARY); // red
-    // }
-    // dilate(color, color, element0);
-    // // 进行与运算
-    // output = bin & color; // _max_color获得了清晰的二值图
-    // dilate(output, output, element2);
   }
   void Detector::FindLights(const cv::Mat &rbg_img, const cv::Mat &binaryImg, std::vector<Light> &lights)
   {
@@ -206,9 +164,9 @@ namespace rm_auto_aim
             {
               if (cv::pointPolygonTest(contour, cv::Point2f(j + rect.x, i + rect.y), false) >= 0)
               {
-                // if point is inside contour
-                sum_r += roi.at<cv::Vec3b>(i, j)[2];
-                sum_b += roi.at<cv::Vec3b>(i, j)[0];
+                // if point is inside contour//摄像头采集·的画面是BGR图像
+                sum_r += roi.at<cv::Vec3b>(i, j)[2]; // R
+                sum_b += roi.at<cv::Vec3b>(i, j)[0]; // B
               }
             }
           }
@@ -257,14 +215,6 @@ namespace rm_auto_aim
 
     bool is_light = ratio_ok && angle_ok;
 
-    // Fill in debug information
-    //        auto_aim_interfaces::msg::DebugLight light_data;
-    //        light_data.center_x = light.center.x;
-    //        light_data.ratio = ratio;
-    //        light_data.angle = light.tilt_angle;
-    //        light_data.is_light = is_light;
-    //        this->debug_lights.data.emplace_back(light_data);
-
     return is_light;
   }
   bool Detector::isArmor(Armor &armor)
@@ -291,22 +241,12 @@ namespace rm_auto_aim
     cv::Point2f diff = light_1.center - light_2.center;
     float angle = std::abs(std::atan(diff.y / diff.x)) / CV_PI * 180;
     bool angle_ok = angle < A_Param.max_angle;
-    // // 添加 灯条角度差（平行性）效果差
-    // float angle_diff = std::abs(light_1.angle - light_2.angle);
+    // // 添加 灯条角度差（平行性）效果差并不好（删去）
+    // float angle_diff = std::abs(light_1.absolute_angle - light_2.absolute_angle);
     // bool angle_diff_ok = angle_diff < A_Param.max_angle_diff;
-    // fmt::print("light_1.angle:{},light_2.angle:{}\n", light_1.angle, light_2.angle);
+    // fmt::print("light_1.angle:{},light_2.angle:{}\n", light_1.absolute_angle, light_2.absolute_angle);
     bool is_armor = light_ratio_ok && center_distance_ok && angle_ok;
-    armor.armor_type =
-        center_distance > A_Param.min_large_center_distance ? LARGE : SMALL;
-    // Fill in debug information
-    //        auto_aim_interfaces::msg::DebugArmor armor_data;
-    //        armor_data.center_x = (light_1.center.x + light_2.center.x) / 2;
-    //        armor_data.light_ratio = light_length_ratio;
-    //        armor_data.center_distance = center_distance;
-    //        armor_data.angle = angle;
-    //        armor_data.is_armor = is_armor;
-    //        armor_data.armor_type = armor.armor_type == LARGE ? "large" :
-    //        "small"; this->debug_armors.data.emplace_back(armor_data);
+    armor.armor_type = center_distance > A_Param.min_large_center_distance ? LARGE : SMALL;
 
     return is_armor;
   }
@@ -365,27 +305,27 @@ namespace rm_auto_aim
     }
   }
   // 构造窗口显示角度姿态信息
-  void Detector::showDebuginfo(float pitch, float yaw, float dis, float XYZ[3])
+  void Detector::showDebuginfo(float pitch, float yaw, float dis, Eigen::Vector3d XYZ)
   {
-    Mat img = Mat::zeros(250, 500, CV_8UC3);
+    Mat img = Mat::zeros(330, 500, CV_8UC3);
 
     if (ArmorState == ARMOR_FOUND)
     {
       putText(img, "ARMOR_FOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1,
-              Scalar(255, 0, 255), 1, 8, false);
+              Scalar(255, 0, 255), 2, 8, false);
 
-      putText(img, format("pitch: %.1f", pitch), Point(100, 70),
+      putText(img, format("pitch: %.2f", pitch), Point(100, 70),
               FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("yaw: %.1f", yaw), Point(100, 105),
+      putText(img, format("yaw: %.2f", yaw), Point(100, 105),
               FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
 
-      putText(img, format("Dis: %.1f", dis), Point(100, 140),
+      putText(img, format("Dis: %.1f", dis * 100), Point(100, 140),
               FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("x: %.1f", XYZ[0] / 100.0f), Point(100, 175), FONT_HERSHEY_SIMPLEX,
+      putText(img, format("X: %.1f", XYZ[0] * 100), Point(100, 175), FONT_HERSHEY_SIMPLEX,
               1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("Y: %.1f", XYZ[1] / 100.0f), Point(100, 205), FONT_HERSHEY_SIMPLEX,
+      putText(img, format("Y: %.1f", XYZ[1] * 100), Point(100, 205), FONT_HERSHEY_SIMPLEX,
               1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("Z: %.1f", XYZ[2] / 100.0f), Point(100, 240), FONT_HERSHEY_SIMPLEX,
+      putText(img, format("Z: %.1f", XYZ[2] * 100), Point(100, 240), FONT_HERSHEY_SIMPLEX,
               1, Scalar(255, 0, 255), 2, 8, false);
       imshow("Debuginfo", img);
     }

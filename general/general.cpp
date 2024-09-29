@@ -217,15 +217,15 @@ Eigen::Matrix3d eulerToRotationMatrix(Eigen::Vector3d &theta)
     Eigen::Matrix3d R_x;
     Eigen::Matrix3d R_y;
     Eigen::Matrix3d R_z;
-    // Calculate rotation about x axis
+    // Calculate rotation about x axis   (roll)
     R_x << 1, 0, 0,
         0, cos(theta[2]), -sin(theta[2]),
         0, sin(theta[2]), cos(theta[2]);
-    // Calculate rotation about y axis
+    // Calculate rotation about y axis    (pitch)
     R_y << cos(theta[1]), 0, sin(theta[1]),
         0, 1, 0,
         -sin(theta[1]), 0, cos(theta[1]);
-    // Calculate rotation about z axis
+    // Calculate rotation about z axis      (yaw)
     R_z << cos(theta[0]), -sin(theta[0]), 0,
         sin(theta[0]), cos(theta[0]), 0,
         0, 0, 1;

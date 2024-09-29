@@ -19,6 +19,7 @@ include_directories(
     ./ArmorDetector/include
     ./HKCamera/include
     ./SerialPort/include
+    ./Processor/include
     ./general
     ./Thread
     ./
@@ -33,6 +34,7 @@ file(GLOB_RECURSE source
     SerialPort/src/*.*
     general/*.*
     Thread/*.*
+    Processor/src/*.*
 )
 add_executable(HDUS ./main.cpp ${source})
 

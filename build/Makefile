@@ -225,6 +225,78 @@ HKCamera/src/Camera.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.s
 .PHONY : HKCamera/src/Camera.cpp.s
 
+Processor/src/extended_kalman_filter.o: Processor/src/extended_kalman_filter.cpp.o
+.PHONY : Processor/src/extended_kalman_filter.o
+
+# target to build an object file
+Processor/src/extended_kalman_filter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o
+.PHONY : Processor/src/extended_kalman_filter.cpp.o
+
+Processor/src/extended_kalman_filter.i: Processor/src/extended_kalman_filter.cpp.i
+.PHONY : Processor/src/extended_kalman_filter.i
+
+# target to preprocess a source file
+Processor/src/extended_kalman_filter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.i
+.PHONY : Processor/src/extended_kalman_filter.cpp.i
+
+Processor/src/extended_kalman_filter.s: Processor/src/extended_kalman_filter.cpp.s
+.PHONY : Processor/src/extended_kalman_filter.s
+
+# target to generate assembly for a file
+Processor/src/extended_kalman_filter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.s
+.PHONY : Processor/src/extended_kalman_filter.cpp.s
+
+Processor/src/processor.o: Processor/src/processor.cpp.o
+.PHONY : Processor/src/processor.o
+
+# target to build an object file
+Processor/src/processor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o
+.PHONY : Processor/src/processor.cpp.o
+
+Processor/src/processor.i: Processor/src/processor.cpp.i
+.PHONY : Processor/src/processor.i
+
+# target to preprocess a source file
+Processor/src/processor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/processor.cpp.i
+.PHONY : Processor/src/processor.cpp.i
+
+Processor/src/processor.s: Processor/src/processor.cpp.s
+.PHONY : Processor/src/processor.s
+
+# target to generate assembly for a file
+Processor/src/processor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/processor.cpp.s
+.PHONY : Processor/src/processor.cpp.s
+
+Processor/src/tracker.o: Processor/src/tracker.cpp.o
+.PHONY : Processor/src/tracker.o
+
+# target to build an object file
+Processor/src/tracker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o
+.PHONY : Processor/src/tracker.cpp.o
+
+Processor/src/tracker.i: Processor/src/tracker.cpp.i
+.PHONY : Processor/src/tracker.i
+
+# target to preprocess a source file
+Processor/src/tracker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.i
+.PHONY : Processor/src/tracker.cpp.i
+
+Processor/src/tracker.s: Processor/src/tracker.cpp.s
+.PHONY : Processor/src/tracker.s
+
+# target to generate assembly for a file
+Processor/src/tracker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/HDUS.dir/build.make CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.s
+.PHONY : Processor/src/tracker.cpp.s
+
 SerialPort/src/CRC_Check.o: SerialPort/src/CRC_Check.cpp.o
 .PHONY : SerialPort/src/CRC_Check.o
 
@@ -366,6 +438,15 @@ help:
 	@echo "... HKCamera/src/Camera.o"
 	@echo "... HKCamera/src/Camera.i"
 	@echo "... HKCamera/src/Camera.s"
+	@echo "... Processor/src/extended_kalman_filter.o"
+	@echo "... Processor/src/extended_kalman_filter.i"
+	@echo "... Processor/src/extended_kalman_filter.s"
+	@echo "... Processor/src/processor.o"
+	@echo "... Processor/src/processor.i"
+	@echo "... Processor/src/processor.s"
+	@echo "... Processor/src/tracker.o"
+	@echo "... Processor/src/tracker.i"
+	@echo "... Processor/src/tracker.s"
 	@echo "... SerialPort/src/CRC_Check.o"
 	@echo "... SerialPort/src/CRC_Check.i"
 	@echo "... SerialPort/src/CRC_Check.s"

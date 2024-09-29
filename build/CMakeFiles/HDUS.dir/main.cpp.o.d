@@ -366,56 +366,6 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
  /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/detector.h \
  /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/number_classifier.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/debug.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/serialport.h \
- /usr/include/c++/11/atomic /usr/include/x86_64-linux-gnu/sys/stat.h \
- /usr/include/x86_64-linux-gnu/bits/stat.h \
- /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \
- /usr/include/linux/types.h /usr/include/x86_64-linux-gnu/asm/types.h \
- /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
- /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
- /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
- /usr/include/linux/stddef.h \
- /usr/include/x86_64-linux-gnu/asm/posix_types.h \
- /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
- /usr/include/asm-generic/posix_types.h \
- /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
- /usr/include/dirent.h /usr/include/x86_64-linux-gnu/bits/dirent.h \
- /usr/include/x86_64-linux-gnu/bits/dirent_ext.h /usr/include/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
- /usr/include/linux/falloc.h /usr/include/termios.h \
- /usr/include/x86_64-linux-gnu/bits/termios.h \
- /usr/include/x86_64-linux-gnu/bits/termios-struct.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_cc.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-baud.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
- /usr/include/x86_64-linux-gnu/bits/termios-misc.h \
- /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
- /usr/include/x86_64-linux-gnu/sys/ioctl.h \
- /usr/include/x86_64-linux-gnu/bits/ioctls.h \
- /usr/include/x86_64-linux-gnu/asm/ioctls.h \
- /usr/include/asm-generic/ioctls.h /usr/include/linux/ioctl.h \
- /usr/include/x86_64-linux-gnu/asm/ioctl.h \
- /usr/include/asm-generic/ioctl.h \
- /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
- /usr/include/linux/netlink.h /usr/include/linux/const.h \
- /usr/include/linux/socket.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/../general/general.h \
- /usr/include/c++/11/fstream \
- /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
- /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/iterator \
- /usr/include/c++/11/bits/stream_iterator.h \
  /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -518,6 +468,7 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h \
  /usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
  /usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h \
+ /usr/include/c++/11/atomic \
  /usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h \
  /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h \
  /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h \
@@ -545,6 +496,56 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/Eigen/src/Core/StlIterators.h \
  /usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h \
  /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/number_classifier.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/debug.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/serialport.h \
+ /usr/include/x86_64-linux-gnu/sys/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
+ /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \
+ /usr/include/linux/types.h /usr/include/x86_64-linux-gnu/asm/types.h \
+ /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
+ /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
+ /usr/include/dirent.h /usr/include/x86_64-linux-gnu/bits/dirent.h \
+ /usr/include/x86_64-linux-gnu/bits/dirent_ext.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+ /usr/include/linux/falloc.h /usr/include/termios.h \
+ /usr/include/x86_64-linux-gnu/bits/termios.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-struct.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_cc.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-baud.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-misc.h \
+ /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
+ /usr/include/x86_64-linux-gnu/sys/ioctl.h \
+ /usr/include/x86_64-linux-gnu/bits/ioctls.h \
+ /usr/include/x86_64-linux-gnu/asm/ioctls.h \
+ /usr/include/asm-generic/ioctls.h /usr/include/linux/ioctl.h \
+ /usr/include/x86_64-linux-gnu/asm/ioctl.h \
+ /usr/include/asm-generic/ioctl.h \
+ /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
+ /usr/include/linux/netlink.h /usr/include/linux/const.h \
+ /usr/include/linux/socket.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general/DataType.h \
+ /usr/include/c++/11/fstream \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/iterator \
+ /usr/include/c++/11/bits/stream_iterator.h \
  /usr/include/eigen3/Eigen/Dense /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/LU /usr/include/eigen3/Eigen/src/misc/Kernel.h \
  /usr/include/eigen3/Eigen/src/misc/Image.h \
@@ -607,6 +608,7 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/local/include/fmt/format.h /usr/local/include/fmt/core.h \
  /usr/local/include/fmt/color.h /usr/local/include/fmt/format.h \
  /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/CRC_Check.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general/general.h \
  /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./AngleSolver/include/AngleSolver.h \
  /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
  /usr/local/include/opencv4/opencv2/core/eigen.hpp \
@@ -701,4 +703,81 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/unsupported/Eigen/CXX11/src/Tensor/TensorMap.h \
  /usr/include/eigen3/unsupported/Eigen/CXX11/src/Tensor/TensorRef.h \
  /usr/include/eigen3/unsupported/Eigen/CXX11/src/Tensor/TensorIO.h \
- /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h
+ /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
+ /usr/local/include/fmt/core.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Processor/include/processor.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Processor/include/tracker.h \
+ /usr/include/eigen3/Eigen/Eigen /usr/include/eigen3/Eigen/Dense \
+ /usr/include/eigen3/Eigen/Sparse /usr/include/eigen3/Eigen/SparseCore \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseUtil.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseMatrixBase.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/../plugins/CommonCwiseUnaryOps.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/../plugins/CommonCwiseBinaryOps.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/../plugins/MatrixCwiseUnaryOps.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/../plugins/MatrixCwiseBinaryOps.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/../plugins/BlockMethods.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseAssign.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/CompressedStorage.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/AmbiVector.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseCompressedBase.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseMatrix.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseMap.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/MappedSparseMatrix.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseVector.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseRef.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseCwiseUnaryOp.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseCwiseBinaryOp.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseTranspose.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseBlock.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseDot.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseRedux.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseView.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseDiagonalProduct.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseSparseProductWithPruning.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseProduct.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseDenseProduct.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseSelfAdjointView.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseTriangularView.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/TriangularSolver.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparsePermutation.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseFuzzy.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseSolverBase.h \
+ /usr/include/eigen3/Eigen/OrderingMethods \
+ /usr/include/eigen3/Eigen/src/OrderingMethods/Amd.h \
+ /usr/include/eigen3/Eigen/src/OrderingMethods/Ordering.h \
+ /usr/include/eigen3/Eigen/src/OrderingMethods/Eigen_Colamd.h \
+ /usr/include/eigen3/Eigen/SparseCholesky \
+ /usr/include/eigen3/Eigen/src/SparseCholesky/SimplicialCholesky.h \
+ /usr/include/eigen3/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h \
+ /usr/include/eigen3/Eigen/SparseLU \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_gemm_kernel.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Structs.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLUImpl.h \
+ /usr/include/eigen3/Eigen/src/SparseCore/SparseColEtree.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Memory.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_relax_snode.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pivotL.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_panel_dfs.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_kernel_bmod.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_panel_bmod.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_column_dfs.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_column_bmod.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pruneL.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Utils.h \
+ /usr/include/eigen3/Eigen/src/SparseLU/SparseLU.h \
+ /usr/include/eigen3/Eigen/SparseQR \
+ /usr/include/eigen3/Eigen/src/SparseQR/SparseQR.h \
+ /usr/include/eigen3/Eigen/IterativeLinearSolvers \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h \
+ /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Processor/include/extended_kalman_filter.h

@@ -139,10 +139,52 @@ CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/HKCamera/src/Camera.cpp -o CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.s
 
+CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o: CMakeFiles/HDUS.dir/flags.make
+CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o: ../Processor/src/extended_kalman_filter.cpp
+CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o -MF CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o.d -o CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/extended_kalman_filter.cpp
+
+CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/extended_kalman_filter.cpp > CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.i
+
+CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/extended_kalman_filter.cpp -o CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.s
+
+CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o: CMakeFiles/HDUS.dir/flags.make
+CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o: ../Processor/src/processor.cpp
+CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o -MF CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o.d -o CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/processor.cpp
+
+CMakeFiles/HDUS.dir/Processor/src/processor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HDUS.dir/Processor/src/processor.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/processor.cpp > CMakeFiles/HDUS.dir/Processor/src/processor.cpp.i
+
+CMakeFiles/HDUS.dir/Processor/src/processor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/Processor/src/processor.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/processor.cpp -o CMakeFiles/HDUS.dir/Processor/src/processor.cpp.s
+
+CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o: CMakeFiles/HDUS.dir/flags.make
+CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o: ../Processor/src/tracker.cpp
+CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o -MF CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o.d -o CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/tracker.cpp
+
+CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/tracker.cpp > CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.i
+
+CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Processor/src/tracker.cpp -o CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.s
+
 CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o: CMakeFiles/HDUS.dir/flags.make
 CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o: ../SerialPort/src/CRC_Check.cpp
 CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o -MF CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o.d -o CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/CRC_Check.cpp
 
 CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.i: cmake_force
@@ -156,7 +198,7 @@ CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.s: cmake_force
 CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o: CMakeFiles/HDUS.dir/flags.make
 CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o: ../SerialPort/src/serialport.cpp
 CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o -MF CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o.d -o CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/serialport.cpp
 
 CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.i: cmake_force
@@ -170,7 +212,7 @@ CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.s: cmake_force
 CMakeFiles/HDUS.dir/Thread/thread.cpp.o: CMakeFiles/HDUS.dir/flags.make
 CMakeFiles/HDUS.dir/Thread/thread.cpp.o: ../Thread/thread.cpp
 CMakeFiles/HDUS.dir/Thread/thread.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/HDUS.dir/Thread/thread.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/HDUS.dir/Thread/thread.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/Thread/thread.cpp.o -MF CMakeFiles/HDUS.dir/Thread/thread.cpp.o.d -o CMakeFiles/HDUS.dir/Thread/thread.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/Thread/thread.cpp
 
 CMakeFiles/HDUS.dir/Thread/thread.cpp.i: cmake_force
@@ -184,7 +226,7 @@ CMakeFiles/HDUS.dir/Thread/thread.cpp.s: cmake_force
 CMakeFiles/HDUS.dir/general/general.cpp.o: CMakeFiles/HDUS.dir/flags.make
 CMakeFiles/HDUS.dir/general/general.cpp.o: ../general/general.cpp
 CMakeFiles/HDUS.dir/general/general.cpp.o: CMakeFiles/HDUS.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/HDUS.dir/general/general.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/HDUS.dir/general/general.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HDUS.dir/general/general.cpp.o -MF CMakeFiles/HDUS.dir/general/general.cpp.o.d -o CMakeFiles/HDUS.dir/general/general.cpp.o -c /home/wpj/RM_Vision_code_US/auto_aim_HDUS/general/general.cpp
 
 CMakeFiles/HDUS.dir/general/general.cpp.i: cmake_force
@@ -202,6 +244,9 @@ HDUS_OBJECTS = \
 "CMakeFiles/HDUS.dir/ArmorDetector/src/detector.cpp.o" \
 "CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o" \
 "CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o" \
+"CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o" \
+"CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o" \
+"CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o" \
 "CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o" \
 "CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o" \
 "CMakeFiles/HDUS.dir/Thread/thread.cpp.o" \
@@ -215,6 +260,9 @@ HDUS: CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o
 HDUS: CMakeFiles/HDUS.dir/ArmorDetector/src/detector.cpp.o
 HDUS: CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o
 HDUS: CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o
+HDUS: CMakeFiles/HDUS.dir/Processor/src/extended_kalman_filter.cpp.o
+HDUS: CMakeFiles/HDUS.dir/Processor/src/processor.cpp.o
+HDUS: CMakeFiles/HDUS.dir/Processor/src/tracker.cpp.o
 HDUS: CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o
 HDUS: CMakeFiles/HDUS.dir/SerialPort/src/serialport.cpp.o
 HDUS: CMakeFiles/HDUS.dir/Thread/thread.cpp.o
@@ -277,7 +325,7 @@ HDUS: /usr/local/lib/libopencv_photo.so.4.4.0
 HDUS: /usr/local/lib/libopencv_imgproc.so.4.4.0
 HDUS: /usr/local/lib/libopencv_core.so.4.4.0
 HDUS: CMakeFiles/HDUS.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable HDUS"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable HDUS"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HDUS.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

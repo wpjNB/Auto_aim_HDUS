@@ -5,8 +5,9 @@
 #include "detector.h"
 #include "debug.h"
 #include "AngleSolver.h"
+#include "processor.h"
 #include "serialport.h"
-
+#include "DataType.h"
 #include <iterator>
 #include <thread>
 #include <memory>
@@ -17,7 +18,28 @@
 #include <atomic>
 #include <opencv2/opencv.hpp>
 #include <fmt/format.h>
-// #include <Eigen/Core>
+#include <Eigen/Core>
+// 对代码段进行计时
+#define TIMEIT(CODE_BLOCK)                                                                                                      \
+    do                                                                                                                          \
+    {                                                                                                                           \
+        auto start = std::chrono::steady_clock::now();                                                                          \
+        CODE_BLOCK;                                                                                                             \
+        auto end = std::chrono::steady_clock::now();                                                                            \
+        auto diff = end - start;                                                                                                \
+        fmt::print(fmt::fg(fmt::color::yellow), "Time elapsed:{} ms", std::chrono::duration<double, std::milli>(diff).count()); \
+                                                                                                                                \
+    } while (0);
+
+#define TIMEIT_ID(ID, CODE_BLOCK)                                                                                                        \
+    do                                                                                                                                   \
+    {                                                                                                                                    \
+        auto start_##ID = std::chrono::steady_clock::now();                                                                              \
+        CODE_BLOCK;                                                                                                                      \
+        auto end_##ID = std::chrono::steady_clock::now();                                                                                \
+        auto diff_##ID = end_##ID - start_##ID;                                                                                          \
+        fmt::print(fmt::fg(fmt::color::yellow), "Time elapsed(" #ID "):{} ms", std::chrono::duration<double, std::milli>(diff).count()); \
+    } while (0);
 
 using namespace std;
 using namespace cv;
@@ -79,19 +101,26 @@ bool Factory<T>::consume(T &product)
 
 class ThreadManager
 {
+
+    using Ms = std::chrono::milliseconds;           // ms
+    using clk = std::chrono::high_resolution_clock; // clk
 private:
     // 相机类
-    HDURM::HKcam hkcam;
-    SerialPort serial;
+    std::unique_ptr<HDURM::HKcam> hkcam;
+    std::unique_ptr<SerialPort> serial;
+    std::unique_ptr<SerialPort> imuSerial;
     std::unique_ptr<rm_auto_aim::Detector> autoAim;
+    std::unique_ptr<Processor> processor;
+    std::unique_ptr<AngleSolver> angleSolver;
 
 public:
     ThreadManager() = default;
 
     void InitManager(const std::string &config_file_path);
     bool producer(Factory<TaskData> &factory);
-    bool consumer(Factory<TaskData> &factory, Factory<VisionSendData> &transmit_factory);
+    bool consumer(Factory<TaskData> &factory, Factory<VisionSendData> &transmit_factory, Factory<VisionRecvData> &data_receive_factory);
     bool dataTransmitter(Factory<VisionSendData> &transmit_factory);
+    bool dataReceiver(Factory<VisionRecvData> &data_receive_factory);
 };
 
 #endif

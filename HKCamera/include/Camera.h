@@ -25,7 +25,7 @@ namespace HDURM
          * @brief
          *
          */
-        HKcam();
+        HKcam(const std::string &config_file_path);
 
         /**
          * @brief
@@ -80,6 +80,7 @@ namespace HDURM
 
         std::string id;
         int nImageOrientation;
+        std::string cameraParamPath;
 
     }; // HKcam
 

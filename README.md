@@ -13,12 +13,13 @@
 
 - RM开源汇总：https://bbs.robomaster.com/forum.php?mod=forumdisplay&fid=63&filter=typeid&typeid=167
 - RMhttps://docs.qq.com/sheet/DUFlaU0FHZk1QS0l1?tab=bb08j2
-
 - 上海交龙战队博客：https://sjtu-robomaster-team.github.io/
 - 君佬rm_vision视觉开源：https://github.com/rm-vision-archive
+- 君佬的完整弹道模型：https://github.com/CodeAlanqian/SolveTrajectory
 - 北极熊战队：https://flowus.cn/lihanchen/share/facb28a9-5d34-42a7-9bc8-630a182c3571
 - 湖南跃鹿视觉教程：https://blog.csdn.net/NeoZng/article/details/126283713?spm=1001.2014.3001.5502
 - Robomaster——关于视觉组，你想要了解的都在这里:https://blog.csdn.net/weixin_42754478/article/details/108159529#comments_29363840
+- 
 
 ## 1. 简介
 
@@ -33,12 +34,14 @@
 
 3. **未完成**：
 
+- kai huo ce lv
 - 能量机关
+- 吊射前哨站
 - 预测，反小陀螺
 
 4. **部署需要调节参数**：
 
-   - 相机的曝光与增益,参数
+   - 相机的曝光与增益(在曝光达不到要求时，可以尝试提高增益)
 
    - 相机内参矩阵与外参矩阵XML路径更改
 
@@ -50,7 +53,7 @@
 
    - inference model 路径更改
 
-   - 根据比赛场地调整曝光和增益，主要是曝光
+   - 根据比赛场地调整二值化阈值，曝光和增益。
 
    - 静止击打装甲板（调整bias_pitch和bias_yaw)，如果近低远高就减小摩擦系数抬高pitch
 
@@ -60,7 +63,11 @@
 
    - 反小陀螺调参，主要调延迟时间，要是角速度非常不准就重新适当调整曝光和增益
 
-   - 
+   - usb易松动可用海绵垫
+   
+   - 相机可加散热片
+
+   
 
      
 
@@ -248,6 +255,7 @@ Alias=rc-local.service
 
    
 
-## 6.总结与展望
-- 反小陀螺
-- 预测装甲板(敌方旋转与平移)EKF(扩展卡尔曼滤波)
+## 6.总结与未来展望
+- 完善反小陀螺
+- 完善预测装甲板(在敌方旋转与平移实现精确打击)
+- EKF(扩展卡尔曼滤波)的预测使用

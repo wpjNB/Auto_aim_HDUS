@@ -7,18 +7,8 @@
 serial:
   serial_id: "/dev/ttyACM0"
 
-
-
-
-#####################################
-# configs for camera calibration    #
-#####################################
 camera:
-  camera_id: ""
-  camera_param_path: "../CameraParam.yaml"
-  video_path: "/home/han/Documents/10.22/video/test.avi"
-  image_orientation: 0
-  if_record: 0
+  camera_param_path: "/home/wpj/RM_Vision_code_US/auto_aim_HDUS/HKCamera/XML/CameraParam.xml"
 
 #####################################
 # configs for detector              #
@@ -60,31 +50,35 @@ detector:
 # configs for compensator module    #
 #####################################
 compensator:
+  cam2WorldBiasX: 0.0
+  cam2WorldBiasY: 0.0
+  cam2WorldBiasZ: 0.0
+  cam2GunBiasX: 0.0
+  cam2GunBiasY: 0.0
+  cam2GunBiasZ: 0.0
+  bias_pitch: 0.0
+  bias_yaw: 0.0
   gravity: 9.8
   friction_coeff: 0.02
-  bullet_speed_bias: 0.0
+  bullet_speed_bias: 0
   channel_delay: 0.35 # s
 
 #####################################
 # configs for processor module      #
 #####################################
 processor:
-  tracker:
-    max_match_distance: 0.5 # meter
-    max_match_yaw_diff: 0.5 # rads
-    tracking_threshold: 10 # frames
-    lost_threshold: 25 # seconds
+  max_match_distance: 0.5 # meter
+  max_match_yaw_diff: 0.5 # rads
+  tracking_threshold: 10 # frames
+  lost_threshold: 25 # seconds
 
 # 过程噪声
-    s2_q_xyz: 0.05
-    s2_q_yaw: 5
-    s2_q_r: 80
+  s2_q_xyz: 0.05
+  s2_q_yaw: 5
+  s2_q_r: 80
 
 # 测量噪声
-    r_xyz_factor: 4e-4
-    r_yaw: 5e-3
+  r_xyz_factor: 4e-4
 
-  solver:
-    calib_info_path: "../utils/CameraCalibration/params/"
-    camera_bias_z: 0  #以毫米为单位
-    camera_bias_y: 0
+  r_yaw: 5e-3
+  

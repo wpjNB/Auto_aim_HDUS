@@ -2,6 +2,7 @@
 #define ARMOR_H
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <Eigen/Core>
 
 namespace rm_auto_aim
 {
@@ -41,16 +42,19 @@ namespace rm_auto_aim
 
             length = cv::norm(top - bottom);
             width = cv::norm(p[0] - p[1]);
-
+            // 灯条倾斜角度0～90(以竖直垂线为基准)
             tilt_angle = std::atan2(std::abs(top.x - bottom.x), std::abs(top.y - bottom.y));
             tilt_angle = tilt_angle / CV_PI * 180;
+            // 灯条倾斜角度0～180（以opencv图像坐标系 x轴正方向为起点）
+            absolute_angle = std::atan2((top.x - bottom.x), std::abs(top.y - bottom.y));
+            absolute_angle = absolute_angle / CV_PI * 180 + 90;
         }
 
         int color;
         cv::Point2f top, bottom;
         double length;
         double width;
-        float tilt_angle;
+        float tilt_angle, absolute_angle;
     };
     // 装甲板
     struct Armor
@@ -72,6 +76,18 @@ namespace rm_auto_aim
                 {left_light.top, left_light.bottom, right_light.bottom, right_light.top});
             vertex = vertexes;
         }
+        float pitch, yaw, dis;
+        double distance_to_image_center{}; // 距离图像中心的像素值
+        // 相机坐标系下的位姿信息
+        Eigen::Vector3d position_cam;
+        Eigen::Matrix3d rotation_cam;
+
+        Eigen::Vector3d position_world; // 世界坐标系下位置XYZ
+        Eigen::Matrix3d rotation_world; // 世界坐标系下自身旋转
+
+        Eigen::Matrix3d _r1; // 相机坐标系到云台坐标系
+        Eigen::Matrix3d _r2; // 先对pitch进行旋转
+        Eigen::Matrix3d _r3; // 再对yaw进行旋转，变为世界坐标系
 
         Light left_light, right_light;
         cv::Point2f center;

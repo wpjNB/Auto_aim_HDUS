@@ -4,23 +4,28 @@
 #include <opencv2/core.hpp>
 #include <opencv2/core/operations.hpp>
 #include <string>
+#include <fmt/format.h>
+#include <fmt/color.h>
 
 using namespace cv;
 using namespace std;
 namespace HDURM
 {
-    HKcam::HKcam()
+    HKcam::HKcam(const std::string &config_file_path)
     {
         nRet = MV_OK;
         handle = nullptr;
         pData = nullptr;
         connected_flag = false;
+        cv::FileStorage config(config_file_path, cv::FileStorage::READ);
+        config["camera"]["camera_param_path"] >> cameraParamPath;
+        // fmt::print(fmt::fg(fmt::color::yellow), "{}\n", cameraParamPath);
     }
 
     void HKcam::SetParam()
     {
         // Get the setParam file 绝对路径
-        FileStorage CameraParam("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/HKCamera/XML/CameraParam.xml", FileStorage::READ);
+        FileStorage CameraParam(cameraParamPath, FileStorage::READ);
         if (!CameraParam.isOpened())
         {
             std::cerr << "failed to open CameraParam.xml" << std::endl;

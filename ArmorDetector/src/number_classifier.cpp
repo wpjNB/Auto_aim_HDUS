@@ -14,9 +14,7 @@
 
 namespace rm_auto_aim
 {
-    NumberClassifier::NumberClassifier(
-        const std::string &model_path, const std::string &label_path, const double thre)
-        : threshold(thre)
+    NumberClassifier::NumberClassifier(const std::string &model_path, const std::string &label_path, const double thre) : threshold(thre)
     {
         net_ = cv::dnn::readNetFromONNX(model_path);
 
@@ -26,7 +24,6 @@ namespace rm_auto_aim
         {
             class_names_.push_back(line);
         }
-        std::cout << "ok" << std::endl;
     }
 
     void NumberClassifier::extractNumbers(const cv::Mat &src, std::vector<Armor> &armors)

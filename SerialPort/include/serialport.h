@@ -17,19 +17,21 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <linux/netlink.h>
-
 #include <iostream>
 #include <vector>
-
-#include "../general/general.h"
-
+#include "DataType.h"
 #include "CRC_Check.h"
-
+#include "general.h"
 using namespace std;
 
 #define TRUE 1
 #define FALSE 0
-
+// IMU常量定义
+#define PI 3.141592653589793
+#define FRAME_HEAD 0xfc
+#define FRAME_END 0xfd
+#define TYPE_AHRS 0x41
+#define AHRS_LEN 48
 // 模式
 #define CmdID0 0x00; // 关闭视觉
 #define CmdID1 0x01; // 自瞄
@@ -44,38 +46,12 @@ const vector<string> DEFAULT_PORT = {"ttyUSB", "ttyACM"};
 // 默认串口最大编号
 const int MAX_ITER = 3;
 
-// 字节数为4的结构体
-typedef union
-{
-    float f;
-    unsigned char c[4];
-} float2uchar;
-
 typedef struct
 {
     string id;
     string alias;
     string path;
 } Device;
-
-// //字节数为2的uchar数据类型
-// typedef union
-// {
-//     int16_t d;
-//     unsigned char c[2];
-// } int16uchar;
-
-// 用于保存目标相关角度和距离信息及瞄准情况
-typedef struct
-{
-    float2uchar pitch_angle; // 偏航角
-    float2uchar yaw_angle;   // 俯仰角
-    float2uchar dis;         // 目标距离
-    int isSwitched;          // 目标是否发生切换
-    int isFindTarget;        // 当识别的图片范围内有目标且电控发来的信号不为0x00（关闭视觉）置为1，否则置0
-    int isSpinning;          // 目标是否处于陀螺状态
-    int ismiddle;            // 设置1表示目标进入了可以开火的范围，设置0则表示目标尚未进入可开火的范围，默认置0
-} VisionSendData;
 
 class SerialPort
 {
@@ -94,21 +70,18 @@ public:
     float gyro[3];            // 角速度
     float bullet_speed;
     SerialPort(const string ID = "/dev/ttyUSB0", const int BUAD = 921600);
-    bool initSerialPort();
-    bool get_Mode();
+    bool open_port(std::string dev_name);
+    bool initSerialPort(std::string dev_name);
     bool withoutSerialPort();
-    Device getDeviceInfo(string path);
-    Device setDeviceByID(std::vector<Device> devices);
     std::vector<Device> listPorts();
     void TransformData(const VisionSendData &data); // 主要方案
+    bool ReceiveData(VisionRecvData &visionData);
     void send(const VisionSendData &data);
     void ReadTest();
     void set_Brate();
     int set_Bit();
     void closePort();
-    void TransformDataFirst(int Xpos, int Ypos, int dis); // 方案1
-    //  int set_disp_mode(int);
-    //  void TransformTarPos(const VisionData &data);
+
 private:
     unsigned char Tdata[30]; // transfrom data
 
