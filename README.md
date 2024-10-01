@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # Auto_aim_HDUS
 =======
-# 花椒步兵视觉开源方案 ReelSteel
+# 花椒步兵视觉开源方案 RealSteel
 
 ------
 
