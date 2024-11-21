@@ -125,9 +125,9 @@ typedef struct
     EnemyColor Color; // 自己颜色
 
     BulletSpeed bullet_speed; // 子弹速度
-    float gimbal_pitch;       // 云台当前的pitch    rad
-    float gimbal_yaw;         // 云台当前的yaw      rad
-    float gimbal_roll;        // 云台当前的yaw      rad
+    double gimbal_pitch;      // 云台当前的pitch    rad
+    double gimbal_yaw;        // 云台当前的yaw      rad
+    double gimbal_roll;       // 云台当前的yaw      rad
 
 } VisionRecvData;
 

@@ -27,8 +27,8 @@ AngleSolver::AngleSolver(const std::string &paramPath, const std::string &config
 
     fsread["camera_matrix"] >> camera_matrix;
     fsread["distortion_coefficients"] >> distortion_coefficients;
-    cout << "camera_matrix: " << camera_matrix << endl;
-    cout << "distortion_coefficients: " << distortion_coefficients << endl;
+    // cout << "camera_matrix: " << camera_matrix << endl;
+    // cout << "distortion_coefficients: " << distortion_coefficients << endl;
     // fmt::print(fmt::fg(fmt::color::yellow), "camera_matrix: {}, distortion_coefficients: {}\n", camera_matrix, distortion_coefficients);
     fsread.release();
 
@@ -54,7 +54,7 @@ AngleSolver::AngleSolver(const std::string &paramPath, const std::string &config
 void AngleSolver::GetTransformation(rm_auto_aim::Armor &Armor, VisionRecvData &recv_data)
 {
     cv::Mat rVec = cv::Mat::zeros(3, 1, CV_64FC1); // 旋转向量
-    cv::Mat rMat;                                  // 旋转矩阵
+
     cv::Mat tVec = cv::Mat::zeros(3, 1, CV_64FC1); // 平移矩阵
     vector<cv::Point2f> D2 = vector<cv::Point2f>{
         Armor.vertex[0], Armor.vertex[1], Armor.vertex[2], Armor.vertex[3]};
@@ -80,28 +80,38 @@ void AngleSolver::GetTransformation(rm_auto_aim::Armor &Armor, VisionRecvData &r
         z_pos = tVec.at<double>(2, 0);
         // 单位m
         Armor.position_cam << x_pos / 1000 + cam2GunBiasX, y_pos / 1000 + cam2GunBiasY, z_pos / 1000 + cam2GunBiasZ;
-
-        Eigen::AngleAxisd rot_angle(cv::norm(rVec),
-                                    Eigen::Vector3d(rVec.at<double>(0, 0),
-                                                    rVec.at<double>(1, 0),
-                                                    rVec.at<double>(2, 0)));
+        cv::Mat rmat;
+        cv::Rodrigues(rVec, rmat);
+        cv::cv2eigen(rmat, Armor.rotation_cam);
+        // Eigen::AngleAxisd rot_angle(cv::norm(rVec),
+        //                             Eigen::Vector3d(rVec.at<double>(0, 0),
+        //                                             rVec.at<double>(1, 0),
+        //                                             rVec.at<double>(2, 0)));
         // 单位rad
-        Armor.rotation_cam = rot_angle.matrix();
+        // Armor.rotation_cam = rot_angle.matrix();
+        Eigen::Vector3d rot_angle_vector = Armor.rotation_cam.eulerAngles(0, 1, 2);
+        Armor.rotationPYR_cam << rot_angle_vector(0), rot_angle_vector(1), rot_angle_vector(2);
+        // float sy = sqrt(rmat.at<double>(2, 1) * rmat.at<double>(2, 1) + rmat.at<double>(2, 2) * rmat.at<double>(2, 2));
+        // Armor.yaw_cam = atan2(-rmat.at<double>(2, 0), sy);
         dis = sqrt(Armor.position_cam[0] * Armor.position_cam[0] + Armor.position_cam[1] * Armor.position_cam[1] + Armor.position_cam[2] * Armor.position_cam[2]);
         Armor.dis = dis + bias_dis;
     }
 #ifdef isIMU
     // 世界坐标系下
     {
-        // 陀螺仪欧拉角(roll给定值)
-        theta << recv_data.gimbal_yaw, recv_data.gimbal_pitch, recv_data.gimbal_roll;
+        // 陀螺仪欧拉角(,yaw,pitch)
+        theta << 0, (recv_data.gimbal_yaw - 3.1415926f), recv_data.gimbal_pitch;
+        // cout << "yaw:" << (recv_data.gimbal_yaw - 3.1415926f) * 57.3 << endl
+        //      << "pitch:"
+        //      << recv_data.gimbal_pitch * 57.3f << endl;
         // 下位机陀螺仪imu欧拉角转旋转矩阵
         R_cam2world = eulerToRotationMatrix(theta);
 
-        Armor.position_world = R_cam2world * (Armor.position_cam + cam2world_bias) / 1000; // 单位m
-        Armor.rotation_world = R_cam2world * Armor.rotation_cam;                           // 弧度rad
+        Armor.position_world = R_cam2world * (Armor.position_cam + cam2world_bias); // 单位m
+        // Armor.rotation_world = R_cam2world * Armor.rotationPYR_cam;                 // 弧度rad
+        // Armor.yaw_world = atan2(Armor.rotation_world(2, 0), Armor.rotation_world(2, 1));
     }
-#else
+#endif
     {
         double tan_pitch = Armor.position_cam[1] / sqrt(Armor.position_cam[0] * Armor.position_cam[0] + Armor.position_cam[2] * Armor.position_cam[2]);
         double tan_yaw = Armor.position_cam[0] / Armor.position_cam[2];
@@ -110,7 +120,6 @@ void AngleSolver::GetTransformation(rm_auto_aim::Armor &Armor, VisionRecvData &r
         Armor.pitch = pitch;
         Armor.yaw = yaw;
     }
-#endif
 }
 // 根据目标位置计算补偿角度和新的飞行时间 弹道高度补偿 pitch角度   根据不同距离的范围设置不同的抬头补偿📏：比如2-3米设置一个补偿值，3-4米设置一个补偿值…
 void AngleSolver::CompensatePitch()
@@ -145,7 +154,7 @@ void AngleSolver::CompensatePitch()
     cout << "fly_time:" << fly_time << endl;
 #endif                                               // DEBUG_COMPENSATION
     tmp_fly_time = (float)fly_time + channel_delay_; // 计算新的飞行时间
-    pitch = (float)(tmp_pitch * 180 / CV_PI);        // 计算补偿角度
+    pitch = tmp_pitch;                               // 计算补偿角度
 }
 
 // 计算最终的角度
@@ -153,7 +162,6 @@ void AngleSolver::CalcFinalAngle(TargetInfo &target_msg, VisionRecvData &recv_da
 {
     tmp_fly_time = channel_delay_;
     // auto bullet_speed = (float)recv_data.speed;        // 获取接收数据的子弹速度
-    auto g_yaw = recv_data.gimbal_yaw;                  // 获取接收数据的偏航角
     t_info = target_msg;                                // 设置目标消息
     bullet_speed_ = bullet_speed_ + bullet_speed_bias_; // 计算子弹速度偏移后的速度
 
@@ -164,9 +172,9 @@ void AngleSolver::CalcFinalAngle(TargetInfo &target_msg, VisionRecvData &recv_da
         CompensatePitch(); // 根据目标位置计算补偿角度和新的飞行时间
     }
 
-    yaw = (g_yaw + (float)shortest_angular_distance(g_yaw, atan2(fx_center, fy_center))) * 180 / CV_PI;
-    send_data.pitch_angle.f = pitch; // 单位角度（世界坐标下）
-    send_data.yaw_angle.f = yaw;
+    yaw = atan2(fx_center, fy_center);
+    send_data.pitch_angle.f = pitch - recv_data.gimbal_pitch; // 单位角度（世界坐标下）
+    send_data.yaw_angle.f = yaw - recv_data.gimbal_yaw + 3.1415926f;
 }
 
 // 判断两个3D点是否在二维平面上

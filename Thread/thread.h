@@ -104,9 +104,12 @@ class ThreadManager
 
     using Ms = std::chrono::milliseconds;           // ms
     using clk = std::chrono::high_resolution_clock; // clk
+    int timeMsCam, timeMsMain;
+
 private:
     // 相机类
-    std::unique_ptr<HDURM::HKcam> hkcam;
+    std::unique_ptr<HDURM::HKcam>
+        hkcam;
     std::unique_ptr<SerialPort> serial;
     std::unique_ptr<SerialPort> imuSerial;
     std::unique_ptr<rm_auto_aim::Detector> autoAim;

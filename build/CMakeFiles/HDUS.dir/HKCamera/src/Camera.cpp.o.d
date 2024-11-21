@@ -1,7 +1,7 @@
 CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o: \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/HKCamera/src/Camera.cpp \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/HKCamera/src/Camera.cpp \
  /usr/include/stdc-predef.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/Camera.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/Camera.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -77,10 +77,10 @@ CMakeFiles/HDUS.dir/HKCamera/src/Camera.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/MvCameraControl.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/MvErrorDefine.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/CameraParams.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/PixelType.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/MvCameraControl.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/MvErrorDefine.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/CameraParams.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/PixelType.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \

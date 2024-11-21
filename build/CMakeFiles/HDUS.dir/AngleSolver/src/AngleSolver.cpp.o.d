@@ -1,7 +1,7 @@
 CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o: \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/AngleSolver/src/AngleSolver.cpp \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/AngleSolver/src/AngleSolver.cpp \
  /usr/include/stdc-predef.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./AngleSolver/include/AngleSolver.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./AngleSolver/include/AngleSolver.h \
  /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -353,7 +353,7 @@ CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o: \
  /usr/local/include/opencv4/opencv2/video.hpp \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/armor.h \
  /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -484,7 +484,7 @@ CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o: \
  /usr/include/eigen3/Eigen/src/Core/StlIterators.h \
  /usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h \
  /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/serialport.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./SerialPort/include/serialport.h \
  /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
@@ -533,7 +533,7 @@ CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
  /usr/include/linux/netlink.h /usr/include/linux/const.h \
  /usr/include/linux/socket.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general/DataType.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./general/DataType.h \
  /usr/include/c++/11/fstream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
@@ -600,8 +600,8 @@ CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o: \
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
  /usr/local/include/fmt/format.h /usr/local/include/fmt/core.h \
  /usr/local/include/fmt/color.h /usr/local/include/fmt/format.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/CRC_Check.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general/general.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./SerialPort/include/CRC_Check.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./general/general.h \
  /usr/local/include/opencv4/opencv2/core/eigen.hpp \
  /usr/include/eigen3/unsupported/Eigen/CXX11/Tensor \
  /usr/include/eigen3/Eigen/Core \
@@ -695,4 +695,5 @@ CMakeFiles/HDUS.dir/AngleSolver/src/AngleSolver.cpp.o: \
  /usr/include/eigen3/unsupported/Eigen/CXX11/src/Tensor/TensorRef.h \
  /usr/include/eigen3/unsupported/Eigen/CXX11/src/Tensor/TensorIO.h \
  /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
- /usr/local/include/fmt/core.h
+ /usr/local/include/fmt/core.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/debug.h

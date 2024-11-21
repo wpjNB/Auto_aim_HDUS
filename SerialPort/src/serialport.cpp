@@ -44,18 +44,18 @@ bool SerialPort::initSerialPort(std::string dev_name)
   {
     std::cout << "Opening " << dev_name.c_str() << "..." << std::endl;
   }
-  else if (open_port("/dev/ttyACM1"))
-  {
-    std::cout << "Opening " << "/dev/ttyACM1" << "..." << std::endl;
-  }
-  else if (open_port("/dev/ttyUSB0"))
-  {
-    std::cout << "Opening " << "/dev/ttyUSB0" << "..." << std::endl;
-  }
-  else if (open_port("/dev/ttyUSB1"))
-  {
-    std::cout << "Opening " << "/dev/ttyUSB1" << "..." << std::endl;
-  }
+  // else if (open_port("/dev/ttyACM1"))
+  // {
+  //   std::cout << "Opening " << "/dev/ttyACM1" << "..." << std::endl;
+  // }
+  // else if (open_port("/dev/ttyUSB0"))
+  // {
+  //   std::cout << "Opening " << "/dev/ttyUSB0" << "..." << std::endl;
+  // }
+  // else if (open_port("/dev/ttyUSB1"))
+  // {
+  //   std::cout << "Opening " << "/dev/ttyUSB1" << "..." << std::endl;
+  // }
   else
   {
     return false;
@@ -312,11 +312,11 @@ bool SerialPort::ReceiveData(VisionRecvData &visionData)
     uint8_t type;
     read(fd, &type, 1); // 读取数据类型
     if (type != TYPE_AHRS)
-      return;
+      return false;
     uint8_t data_len;
     read(fd, &data_len, 1); // 读取数据长度
     if (data_len != AHRS_LEN)
-      return;
+      return false;
     uint8_t check[4];
     read(fd, check, 4); // 读取校验码
     uint8_t data[256];
@@ -330,7 +330,7 @@ bool SerialPort::ReceiveData(VisionRecvData &visionData)
       visionData.gimbal_roll = ahrs_data[3];
       visionData.gimbal_pitch = ahrs_data[4];
       visionData.gimbal_yaw = ahrs_data[5];
-      printf("AHRS Data: Roll=%f, Pitch=%f, Heading=%f\n", ahrs_data[3], ahrs_data[4], ahrs_data[5]);
+      // printf("AHRS Data: Roll=%f, Pitch=%f, Heading=%f\n", ahrs_data[3], ahrs_data[4], ahrs_data[5]);
       return true;
     }
   }

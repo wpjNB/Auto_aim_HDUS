@@ -1,5 +1,5 @@
 CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o: \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/ArmorDetector/src/number_classifier.cpp \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/ArmorDetector/src/number_classifier.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/algorithm \
  /usr/include/c++/11/utility \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -175,7 +175,7 @@ CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o: \
  /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/map \
  /usr/include/c++/11/bits/stl_tree.h /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/number_classifier.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/number_classifier.h \
  /usr/local/include/opencv4/opencv2/opencv.hpp \
  /usr/local/include/opencv4/opencv2/opencv_modules.hpp \
  /usr/local/include/opencv4/opencv2/core.hpp \
@@ -354,7 +354,7 @@ CMakeFiles/HDUS.dir/ArmorDetector/src/number_classifier.cpp.o: \
  /usr/local/include/opencv4/opencv2/video.hpp \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/armor.h \
  /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \

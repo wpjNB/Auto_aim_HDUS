@@ -1,8 +1,8 @@
 CMakeFiles/HDUS.dir/main.cpp.o: \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/main.cpp \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/main.cpp \
  /usr/include/stdc-predef.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Thread/thread.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/Camera.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./Thread/thread.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/Camera.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -78,10 +78,10 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/MvCameraControl.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/MvErrorDefine.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/CameraParams.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./HKCamera/include/PixelType.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/MvCameraControl.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/MvErrorDefine.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/CameraParams.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./HKCamera/include/PixelType.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
@@ -364,8 +364,8 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/local/include/opencv4/opencv2/video.hpp \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/detector.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/detector.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/armor.h \
  /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -496,9 +496,9 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/Eigen/src/Core/StlIterators.h \
  /usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h \
  /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/number_classifier.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/debug.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/serialport.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/number_classifier.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/debug.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./SerialPort/include/serialport.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
@@ -540,7 +540,7 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
  /usr/include/linux/netlink.h /usr/include/linux/const.h \
  /usr/include/linux/socket.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general/DataType.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./general/DataType.h \
  /usr/include/c++/11/fstream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
@@ -607,10 +607,10 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
  /usr/local/include/fmt/format.h /usr/local/include/fmt/core.h \
  /usr/local/include/fmt/color.h /usr/local/include/fmt/format.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/CRC_Check.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./general/general.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./AngleSolver/include/AngleSolver.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./ArmorDetector/include/armor.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./SerialPort/include/CRC_Check.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./general/general.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./AngleSolver/include/AngleSolver.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./ArmorDetector/include/armor.h \
  /usr/local/include/opencv4/opencv2/core/eigen.hpp \
  /usr/include/eigen3/unsupported/Eigen/CXX11/Tensor \
  /usr/include/eigen3/Eigen/Core \
@@ -705,8 +705,8 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/unsupported/Eigen/CXX11/src/Tensor/TensorIO.h \
  /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
  /usr/local/include/fmt/core.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Processor/include/processor.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Processor/include/tracker.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./Processor/include/processor.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./Processor/include/tracker.h \
  /usr/include/eigen3/Eigen/Eigen /usr/include/eigen3/Eigen/Dense \
  /usr/include/eigen3/Eigen/Sparse /usr/include/eigen3/Eigen/SparseCore \
  /usr/include/eigen3/Eigen/src/SparseCore/SparseUtil.h \
@@ -780,4 +780,4 @@ CMakeFiles/HDUS.dir/main.cpp.o: \
  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h \
  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h \
  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./Processor/include/extended_kalman_filter.h
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./Processor/include/extended_kalman_filter.h

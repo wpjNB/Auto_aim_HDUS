@@ -1,4 +1,4 @@
-# Install script for directory: /home/wpj/RM_Vision_code_US/auto_aim_HDUS
+# Install script for directory: /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/wpj/RM_Vision_code_US/auto_aim_HDUS/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

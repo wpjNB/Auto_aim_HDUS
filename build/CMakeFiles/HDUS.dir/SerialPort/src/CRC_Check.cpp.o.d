@@ -1,7 +1,7 @@
 CMakeFiles/HDUS.dir/SerialPort/src/CRC_Check.cpp.o: \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/SerialPort/src/CRC_Check.cpp \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/SerialPort/src/CRC_Check.cpp \
  /usr/include/stdc-predef.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/./SerialPort/include/CRC_Check.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/./SerialPort/include/CRC_Check.h \
  /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

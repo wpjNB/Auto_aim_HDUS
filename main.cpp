@@ -25,6 +25,9 @@ int main()
   transmitter.join();
   task_producer.join();
   task_consumer.join();
+#ifdef isIMU
+  printf("IMU start !!!!!!!!!!\n");
   receiver.join();
+#endif
   return 0;
 }

@@ -209,7 +209,7 @@ Eigen::Vector3d calcDeltaEuler(Eigen::Vector3d euler1, Eigen::Vector3d euler2)
 
 /**
  * @brief 计算旋转矩阵
- * @param theta 欧拉角(顺序Roll-Yaw-Pitch)
+ * @param theta 欧拉角(顺序Yaw-Pitch-)
  * @return 旋转矩阵
  */
 Eigen::Matrix3d eulerToRotationMatrix(Eigen::Vector3d &theta)
@@ -217,15 +217,15 @@ Eigen::Matrix3d eulerToRotationMatrix(Eigen::Vector3d &theta)
     Eigen::Matrix3d R_x;
     Eigen::Matrix3d R_y;
     Eigen::Matrix3d R_z;
-    // Calculate rotation about x axis   (roll)
+    // Calculate rotation about x axis   (pitch)
     R_x << 1, 0, 0,
         0, cos(theta[2]), -sin(theta[2]),
         0, sin(theta[2]), cos(theta[2]);
-    // Calculate rotation about y axis    (pitch)
+    // Calculate rotation about y axis    (yaw)
     R_y << cos(theta[1]), 0, sin(theta[1]),
         0, 1, 0,
         -sin(theta[1]), 0, cos(theta[1]);
-    // Calculate rotation about z axis      (yaw)
+    // Calculate rotation about z axis      (roll)
     R_z << cos(theta[0]), -sin(theta[0]), 0,
         sin(theta[0]), cos(theta[0]), 0,
         0, 0, 1;

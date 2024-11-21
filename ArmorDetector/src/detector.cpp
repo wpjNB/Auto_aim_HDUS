@@ -35,12 +35,6 @@ namespace rm_auto_aim
     ImageByROI(img);
 #endif
     detector(img, color_label);
-#ifdef UsingShowImg
-    drawResults(img);
-    cv::waitKey(1);
-    // fmt::print(fmt::fg(fmt::color::black), "...test... !!!!!!!!!!\n");
-    imshow("test", img);
-#endif
   }
 
   void Detector::ImageByROI(Mat &img)
@@ -237,15 +231,15 @@ namespace rm_auto_aim
         (A_Param.min_large_center_distance < center_distance &&
          center_distance < A_Param.max_large_center_distance);
 
-    // Angle of light center connection
+    // Angle of light center connection  ()
     cv::Point2f diff = light_1.center - light_2.center;
     float angle = std::abs(std::atan(diff.y / diff.x)) / CV_PI * 180;
     bool angle_ok = angle < A_Param.max_angle;
-    // // 添加 灯条角度差（平行性）效果差并不好（删去）
-    // float angle_diff = std::abs(light_1.absolute_angle - light_2.absolute_angle);
-    // bool angle_diff_ok = angle_diff < A_Param.max_angle_diff;
+    // // 添加 ARMOR的两条灯条角度差（平行性）效果差并不好（删去）
+    float angle_diff = std::abs(light_1.absolute_angle - light_2.absolute_angle);
+    bool angle_diff_ok = angle_diff < A_Param.max_angle_diff;
     // fmt::print("light_1.angle:{},light_2.angle:{}\n", light_1.absolute_angle, light_2.absolute_angle);
-    bool is_armor = light_ratio_ok && center_distance_ok && angle_ok;
+    bool is_armor = light_ratio_ok && center_distance_ok && angle_ok && angle_diff_ok;
     armor.armor_type = center_distance > A_Param.min_large_center_distance ? LARGE : SMALL;
 
     return is_armor;
@@ -302,39 +296,56 @@ namespace rm_auto_aim
     {
       cv::putText(img, armor.classfication_result, armor.left_light.top,
                   cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(0, 255, 255), 2);
+      // cv::putText(img, std::to_string(armor.position_world[0]), armor.center - Point2f(10, 10),
+      //             cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(0, 255, 255), 1);
     }
   }
   // 构造窗口显示角度姿态信息
-  void Detector::showDebuginfo(float pitch, float yaw, float dis, Eigen::Vector3d XYZ)
+  void Detector::showDebuginfo(Mat &test, Armor &armor)
   {
-    Mat img = Mat::zeros(330, 500, CV_8UC3);
+    // Mat img = Mat::zeros(330, 500, CV_8UC3);
 
     if (ArmorState == ARMOR_FOUND)
     {
-      putText(img, "ARMOR_FOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1,
-              Scalar(255, 0, 255), 2, 8, false);
+      cv::Point2f pts[4] = {armor.vertex[0], armor.vertex[1], armor.vertex[2], armor.vertex[3]};
+      cv::Point2f pts_center;
+      pts_center = points_center(pts);
+      cv::circle(test, pts_center, 7, cv::Scalar(0, 255, 255), 2);
+      // putText(img, "ARMOR_FOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1,
+      //         Scalar(255, 0, 255), 2, 8, false);
 
-      putText(img, format("pitch: %.2f", pitch), Point(100, 70),
-              FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("yaw: %.2f", yaw), Point(100, 105),
-              FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("pitch: %.2f", armor.pitch), Point(100, 70),
+      //         FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("yaw: %.2f", armor.yaw), Point(100, 105),
+      //         FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
 
-      putText(img, format("Dis: %.1f", dis * 100), Point(100, 140),
-              FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("X: %.1f", XYZ[0] * 100), Point(100, 175), FONT_HERSHEY_SIMPLEX,
-              1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("Y: %.1f", XYZ[1] * 100), Point(100, 205), FONT_HERSHEY_SIMPLEX,
-              1, Scalar(255, 0, 255), 2, 8, false);
-      putText(img, format("Z: %.1f", XYZ[2] * 100), Point(100, 240), FONT_HERSHEY_SIMPLEX,
-              1, Scalar(255, 0, 255), 2, 8, false);
-      imshow("Debuginfo", img);
+      // putText(img, format("Dis: %.1f", armor.dis * 100), Point(100, 140),
+      //         FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("X: %.1f", armor.position_cam[0] * 100), Point(100, 175), FONT_HERSHEY_SIMPLEX,
+      //         1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("Y: %.1f", armor.position_cam[1] * 100), Point(100, 205), FONT_HERSHEY_SIMPLEX,
+      //         1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("Z: %.1f", armor.position_cam[2] * 100), Point(100, 240), FONT_HERSHEY_SIMPLEX,
+      //         1, Scalar(255, 0, 255), 2, 8, false);
+      // imshow("Debuginfo", img);
+      putText(test, format("XYZ_C: %.2f  %.2f  %.2f", armor.position_cam[0] * 100, armor.position_cam[1] * 100, armor.position_cam[2] * 100), Point(10, 30), FONT_HERSHEY_SIMPLEX,
+              0.65, Scalar(0, 255, 0), 2, 8, false);
+      putText(test, format("XYZ_W: %.2f  %.2f  %.2f", armor.position_world[0] * 100, armor.position_world[1] * 100, armor.position_world[2] * 100), Point(10, 60), FONT_HERSHEY_SIMPLEX,
+              0.65, Scalar(0, 255, 0), 2, 8, false);
+
+      putText(test, format("yaw_cam: %.2f", armor.rotationPYR_cam[0] * 57.3), Point(10, 120), FONT_HERSHEY_SIMPLEX,
+              0.65, Scalar(0, 255, 0), 2, 8, false);
+      putText(test, format("yaw_world: %.2f", armor.rotationPYR_cam[1] * 57.3), Point(10, 90), FONT_HERSHEY_SIMPLEX,
+              0.65, Scalar(0, 255, 0), 2, 8, false);
     }
     else
     {
-      putText(img, "ARMOR_NOFOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1,
-              Scalar(255, 0, 255), 2, 8, false);
-      imshow("Debuginfo", img);
+      // putText(img, "ARMOR_NOFOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1,
+      //         Scalar(255, 0, 255), 2, 8, false);
+      // imshow("Debuginfo", img);
     }
   }
+
 }
+
 // namespace rm_vision

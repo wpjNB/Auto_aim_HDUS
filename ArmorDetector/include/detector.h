@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "serialport.h"
 #include "AngleSolver.h"
+#include "stdio.h"
 namespace rm_auto_aim
 {
     class Detector
@@ -31,8 +32,8 @@ namespace rm_auto_aim
             double min_large_center_distance = 3.2;
             double max_large_center_distance = 4.6;
             // horizontal angle
-            double max_angle = 40.0;
-            double max_angle_diff = 40.0;
+            double max_angle = 35.0;
+            double max_angle_diff = 25.0;
         };
         Detector() = default;
         Detector(const std::string &config_file_path);
@@ -57,7 +58,7 @@ namespace rm_auto_aim
         void matchArmor(const std::vector<Light> &lights, std::vector<Armor> &Armors, int enemy_color);
         bool containLight(const Light &light_1, const Light &light_2, const std::vector<Light> &lights);
         void drawResults(cv::Mat &img);
-        void showDebuginfo(float pitch, float yaw, float dis, Eigen::Vector3d XYZ);
+        void showDebuginfo(Mat &img, Armor &armor);
 
     private:
         bool isLight(const Light &light);

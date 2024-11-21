@@ -10,6 +10,7 @@
 #include <fmt/format.h>
 #include <fmt/core.h>
 #include <fmt/color.h>
+#include "debug.h"
 using namespace std;
 // armor size
 #define BIG_ARMOR_LEN 217.5

@@ -1,7 +1,7 @@
 CMakeFiles/HDUS.dir/general/general.cpp.o: \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/general/general.cpp \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/general/general.cpp \
  /usr/include/stdc-predef.h \
- /home/wpj/RM_Vision_code_US/auto_aim_HDUS/general/general.h \
+ /home/wpj/RM_Vision_code_US/auto_aim_HDUSTest/general/general.h \
  /usr/include/unistd.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \

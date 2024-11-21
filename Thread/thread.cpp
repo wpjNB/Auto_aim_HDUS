@@ -6,10 +6,10 @@ void ThreadManager::InitManager(const std::string &config_file_path)
   hkcam = std::make_unique<HDURM::HKcam>(config_file_path);
   autoAim = std::make_unique<rm_auto_aim::Detector>(config_file_path);
   // 定义与主控板串口
-  serial = std::make_unique<SerialPort>("/dev/ttyUSB0", 115200);
-// 定义与IMU惯导
+  serial = std::make_unique<SerialPort>("/dev/ttyUSB1", 921600);
+// 定义与IMU惯导(需要自己串口名称重定向为/dev/IMU,因为串口会跳变)
 #ifdef isIMU
-  imuSerial = std::make_unique<SerialPort>("/dev/IMU", 115200);
+  imuSerial = std::make_unique<SerialPort>("/dev/IMU", 921600);
 #endif
   processor = std::make_unique<Processor>(config_file_path);
   angleSolver = std::make_unique<AngleSolver>("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/AngleSolver/XML/out_camera_data1.xml", config_file_path);
@@ -40,8 +40,8 @@ bool ThreadManager::producer(Factory<TaskData> &factory)
     factory.produce(src);
     // 结束计时
     auto end = clk::now();
-    auto time_ms = std::chrono::duration_cast<Ms>(end - start).count();
-    // fmt::print(fmt::fg(fmt::color::black), "{}\n", time_ms);
+    timeMsCam = std::chrono::duration_cast<Ms>(end - start).count();
+    // fmt::print(fmt::fg(fmt::color::black), "{}\n", timeMsCam);
   }
 
   hkcam->CloseCam();
@@ -65,7 +65,7 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
 
     // 接受电控数据(无电控数据无法进行预测)
 #ifdef isIMU
-    revData = data_receive_factory.consume(revData);
+    data_receive_factory.consume(revData);
 #else
 
 #endif
@@ -118,29 +118,21 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
         sendData.yaw_angle.f = 0;
       }
 #ifdef UsingShowImg
-      autoAim->showDebuginfo(oneArmor->pitch, oneArmor->yaw, oneArmor->dis, oneArmor->position_cam);
+      // draw all Armor
+      autoAim->drawResults(dst.img);
+      // draw target Armor
+      autoAim->showDebuginfo(dst.img, *oneArmor);
+      putText(dst.img, format(" aimT: %dms", timeMsMain), cv::Point(1100, 30), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
+      putText(dst.img, format(" camT: %dms", timeMsCam), cv::Point(1100, 60), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
+      imshow("test", dst.img);
+      cv::waitKey(1);
 #endif
-      // processor->processArmor(autoAim->True_armors, target_msg);
-
-      // if (processor->tracker->tracker_state != Tracker::State::LOST)
-      // {
-      //   angleSolver->CalcFinalAngle(target_msg, revData, sendData, processor->tracker->tracked_armors_num);
-      //   sendData.yaw_angle.f += bias_yaw;
-      //   sendData.pitch_angle.f += bias_pitch;
-      //   sendData.isFire = 1;
-      // }
-      // else
-      // {
-      //   sendData.isFire = 0;
-      //   sendData.pitch_angle.f = revData.gimbal_pitch * 180 / CV_PI;
-      //   sendData.yaw_angle.f = revData.gimbal_yaw * 180 / CV_PI;
-      // }
 
       transmit_factory.produce(sendData);
       // 结束计时
       auto end = clk::now();
-      auto time_ms = std::chrono::duration_cast<Ms>(end - start).count();
-      // fmt::print(fmt::fg(fmt::color::black), "{}\n", time_ms);
+      timeMsMain = std::chrono::duration_cast<Ms>(end - start).count();
+      // fmt::print(fmt::fg(fmt::color::black), "{}\n", timeMsMain);
     }
     /*-----------------------------------自瞄----------------------------------------------------*/
   }

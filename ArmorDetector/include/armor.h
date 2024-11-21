@@ -76,14 +76,19 @@ namespace rm_auto_aim
                 {left_light.top, left_light.bottom, right_light.bottom, right_light.top});
             vertex = vertexes;
         }
+        // 相机坐标系云台的偏移量
         float pitch, yaw, dis;
         double distance_to_image_center{}; // 距离图像中心的像素值
         // 相机坐标系下的位姿信息
         Eigen::Vector3d position_cam;
         Eigen::Matrix3d rotation_cam;
+        Eigen::Vector3d rotationPYR_cam;
+
+        float yaw_cam;
 
         Eigen::Vector3d position_world; // 世界坐标系下位置XYZ
         Eigen::Matrix3d rotation_world; // 世界坐标系下自身旋转
+        float yaw_world;                // 世界坐标系下Armor的yaw
 
         Eigen::Matrix3d _r1; // 相机坐标系到云台坐标系
         Eigen::Matrix3d _r2; // 先对pitch进行旋转

@@ -94,7 +94,7 @@ void Tracker::update(const std::vector<rm_auto_aim::Armor> &armors_msg)
                 {
                     min_position_diff = position_diff;
                     // 计算当前装甲板的姿态与EKF预测的姿态之间的差异
-                    yaw_diff = abs(orientationToYaw(armor.rotation_world) - ekf_prediction(6));
+                    yaw_diff = abs(armor.yaw_world - ekf_prediction(6));
                     tracked_armor = armor;
                 }
             }
@@ -110,7 +110,7 @@ void Tracker::update(const std::vector<rm_auto_aim::Armor> &armors_msg)
             matched = true;
             auto p = tracked_armor.position_world;
             // 更新EKF
-            double measured_yaw = orientationToYaw(tracked_armor.rotation_world);
+            double measured_yaw = tracked_armor.yaw_world;
             Eigen::Vector4d z(p(0), p(1), p(2), measured_yaw);
             target_state = ekf.update(z);
         }
@@ -186,10 +186,10 @@ void Tracker::update(const std::vector<rm_auto_aim::Armor> &armors_msg)
 void Tracker::initEKF(const rm_auto_aim::Armor &a)
 {
     double xa = a.position_world(0);
-    double ya = a.position_world(1);
-    double za = a.position_world(2);
+    double ya = a.position_world(2);
+    double za = a.position_world(1);
     last_yaw_ = 0;
-    double yaw = orientationToYaw(a.rotation_world);
+    double yaw = a.yaw_world;
 
     // 将初始位置设置在目标后方0.2米处
     target_state = Eigen::VectorXd::Zero(9);
@@ -206,7 +206,7 @@ void Tracker::initEKF(const rm_auto_aim::Armor &a)
 void Tracker::handleArmorJump(const rm_auto_aim::Armor &a)
 {
     // 计算当前装甲板的偏航角
-    double yaw = orientationToYaw(a.rotation_world);
+    double yaw = a.yaw_world;
     // 将偏航角设置为目标状态向量的第6个元素
     target_state(6) = yaw;
 
