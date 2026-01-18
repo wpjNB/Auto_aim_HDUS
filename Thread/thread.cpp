@@ -132,9 +132,9 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
       {
         autoAim->showDebuginfo(dst.img, *oneArmor);
       }
-      putText(dst.img, format(" aimT: %dms", timeMsMain), cv::Point(1100, 30), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
-      putText(dst.img, format(" camT: %dms", timeMsCam), cv::Point(1100, 60), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
-      imshow("test", dst.img);
+      cv::putText(dst.img, cv::format(" aimT: %dms", timeMsMain), cv::Point(1100, 30), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
+      cv::putText(dst.img, cv::format(" camT: %dms", timeMsCam), cv::Point(1100, 60), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
+      cv::imshow("test", dst.img);
       cv::waitKey(1);
 #endif
 

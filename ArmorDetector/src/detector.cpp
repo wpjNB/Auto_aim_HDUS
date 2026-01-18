@@ -100,7 +100,7 @@ namespace rm_auto_aim
   }
   void Detector::detector(const cv::Mat &input, int enemy_color)
   {
-    Mat inputs = input.clone();
+    cv::Mat inputs = input.clone();
     // 预处理
     PreProcessImage(inputs, binary_img, enemy_color);
 
@@ -112,8 +112,8 @@ namespace rm_auto_aim
 
     for (auto &armor : True_armors)
     {
-      Point2f _center((input.cols - 1) / 2, (input.rows - 1) / 2);
-      armor.distance_to_image_center = norm(armor.center - _center);
+      cv::Point2f _center((input.cols - 1) / 2, (input.rows - 1) / 2);
+      armor.distance_to_image_center = cv::norm(armor.center - _center);
     }
 
     if (!True_armors.empty())
