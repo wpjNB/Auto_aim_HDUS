@@ -12,25 +12,25 @@ int main()
   
   /*--------串口发送线程--------*/
   std::thread transmitter(&ThreadManager::dataTransmitter, &thread_manager, std::ref(data_transmit_factory));
-  fmt::print(fmt::fg(fmt::color::blue), "Transmitter start !!!!!!!!!!\n");
+  fmt::print(fmt::fg(fmt::color::blue), "Transmitter started\n");
   
   /*--------相机更新线程--------*/
   std::thread task_producer(&ThreadManager::producer, &thread_manager, std::ref(task_factory));
-  fmt::print(fmt::fg(fmt::color::blue), "Producer start !!!!!!!!!!\n");
+  fmt::print(fmt::fg(fmt::color::blue), "Producer started\n");
   
   /*--------自瞄线程-----------*/
   std::thread task_consumer(&ThreadManager::consumer, &thread_manager, std::ref(task_factory), std::ref(data_transmit_factory), std::ref(data_receive_factory));
-  fmt::print(fmt::fg(fmt::color::blue), "Consumer start !!!!!!!!!!\n");
+  fmt::print(fmt::fg(fmt::color::blue), "Consumer started\n");
   
   /*--------接受线程-----------*/
   std::thread receiver(&ThreadManager::dataReceiver, &thread_manager, std::ref(data_receive_factory));
-  fmt::print(fmt::fg(fmt::color::blue), "Receiver start !!!!!!!!!!\n");
+  fmt::print(fmt::fg(fmt::color::blue), "Receiver started\n");
 
   transmitter.join();
   task_producer.join();
   task_consumer.join();
 #ifdef isIMU
-  fmt::print(fmt::fg(fmt::color::blue), "IMU start !!!!!!!!!!\n");
+  fmt::print(fmt::fg(fmt::color::blue), "IMU started\n");
   receiver.join();
 #endif
   return 0;

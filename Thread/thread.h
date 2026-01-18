@@ -31,14 +31,14 @@
                                                                                                                                 \
     } while (0);
 
-#define TIMEIT_ID(ID, CODE_BLOCK)                                                                                                        \
-    do                                                                                                                                   \
-    {                                                                                                                                    \
-        auto start_##ID = std::chrono::steady_clock::now();                                                                              \
-        CODE_BLOCK;                                                                                                                      \
-        auto end_##ID = std::chrono::steady_clock::now();                                                                                \
-        auto diff_##ID = end_##ID - start_##ID;                                                                                          \
-        fmt::print(fmt::fg(fmt::color::yellow), "Time elapsed(" #ID "):{} ms", std::chrono::duration<double, std::milli>(diff).count()); \
+#define TIMEIT_ID(ID, CODE_BLOCK)                                                                                                           \
+    do                                                                                                                                      \
+    {                                                                                                                                       \
+        auto start_##ID = std::chrono::steady_clock::now();                                                                                 \
+        CODE_BLOCK;                                                                                                                         \
+        auto end_##ID = std::chrono::steady_clock::now();                                                                                   \
+        auto diff_##ID = end_##ID - start_##ID;                                                                                             \
+        fmt::print(fmt::fg(fmt::color::yellow), "Time elapsed(" #ID "):{} ms", std::chrono::duration<double, std::milli>(diff_##ID).count()); \
     } while (0);
 
 // Constants for thread timing and configuration

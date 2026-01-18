@@ -52,8 +52,11 @@ namespace rm_auto_aim
     
     if (ArmorState == ARMOR_FOUND)
     {
-      imgBound = cv::Rect(img.cols / ROI_SCALE_FACTOR, img.rows / ROI_SCALE_FACTOR, 
-                         img.cols / ROI_SCALE_FACTOR * 3, img.rows / ROI_SCALE_FACTOR * 3);
+      // ROI: x, y, width, height
+      imgBound = cv::Rect(img.cols / ROI_SCALE_FACTOR, 
+                         img.rows / ROI_SCALE_FACTOR, 
+                         img.cols * 3 / ROI_SCALE_FACTOR, 
+                         img.rows * 3 / ROI_SCALE_FACTOR);
     }
     else if (ArmorState == ARMOR_NOT_FOUND)
     {

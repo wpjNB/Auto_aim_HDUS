@@ -104,9 +104,13 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
       }
       if (autoAim->ArmorState == rm_auto_aim::ARMOR_FOUND && oneArmor != nullptr)
       {
-        if (abs(oneArmor->yaw) < MIN_ANGLE_THRESHOLD || abs(oneArmor->pitch) < MIN_ANGLE_THRESHOLD)
+        // 单独检查每个角度，如果过小则置零
+        if (abs(oneArmor->yaw) < MIN_ANGLE_THRESHOLD)
         {
           oneArmor->yaw = 0;
+        }
+        if (abs(oneArmor->pitch) < MIN_ANGLE_THRESHOLD)
+        {
           oneArmor->pitch = 0;
         }
         sendData.yaw_angle.f = oneArmor->yaw;
