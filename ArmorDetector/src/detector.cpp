@@ -52,11 +52,13 @@ namespace rm_auto_aim
     
     if (ArmorState == ARMOR_FOUND)
     {
-      // ROI: x, y, width, height
+      // ROI: 从1/4处开始，宽度和高度为原图的1/2（即中心3/4区域的一半）
+      // 起点 (x, y) = (cols/4, rows/4)
+      // 尺寸 (width, height) = (cols/2, rows/2)
       imgBound = cv::Rect(img.cols / ROI_SCALE_FACTOR, 
                          img.rows / ROI_SCALE_FACTOR, 
-                         img.cols * 3 / ROI_SCALE_FACTOR, 
-                         img.rows * 3 / ROI_SCALE_FACTOR);
+                         img.cols / 2, 
+                         img.rows / 2);
     }
     else if (ArmorState == ARMOR_NOT_FOUND)
     {
