@@ -41,6 +41,14 @@
         fmt::print(fmt::fg(fmt::color::yellow), "Time elapsed(" #ID "):{} ms", std::chrono::duration<double, std::milli>(diff).count()); \
     } while (0);
 
+// Constants for thread timing and configuration
+namespace ThreadConstants {
+    constexpr int DEFAULT_TASK_BUFFER_SIZE = 3;
+    constexpr int DEFAULT_TRANSMIT_BUFFER_SIZE = 5;
+    constexpr int DEFAULT_RECEIVE_BUFFER_SIZE = 6;
+    constexpr int FACTORY_POLL_INTERVAL_US = 1000; // 1ms polling interval
+}
+
 template <typename T>
 class Factory
 {
@@ -88,7 +96,7 @@ bool Factory<T>::consume(T &product)
         if (!buffer.empty())
             break;
         lock.unlock();
-        usleep(1e3);
+        usleep(ThreadConstants::FACTORY_POLL_INTERVAL_US);
     }
     product = buffer.front();
     buffer.pop_front();

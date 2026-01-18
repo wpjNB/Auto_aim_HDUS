@@ -2,31 +2,35 @@
 
 int main()
 {
-  // 工厂模板类
-  Factory<TaskData> task_factory(3);
-  Factory<VisionSendData> data_transmit_factory(5);
-  Factory<VisionRecvData> data_receive_factory(6);
+  // 工厂模板类 - 使用生产者消费者模式
+  Factory<TaskData> task_factory(ThreadConstants::DEFAULT_TASK_BUFFER_SIZE);
+  Factory<VisionSendData> data_transmit_factory(ThreadConstants::DEFAULT_TRANSMIT_BUFFER_SIZE);
+  Factory<VisionRecvData> data_receive_factory(ThreadConstants::DEFAULT_RECEIVE_BUFFER_SIZE);
 
   ThreadManager thread_manager;
   thread_manager.InitManager("./config.yaml");
+  
   /*--------串口发送线程--------*/
-  thread transmitter(&ThreadManager::dataTransmitter, &thread_manager, std::ref(data_transmit_factory));
+  std::thread transmitter(&ThreadManager::dataTransmitter, &thread_manager, std::ref(data_transmit_factory));
   fmt::print(fmt::fg(fmt::color::blue), "Transmitter start !!!!!!!!!!\n");
+  
   /*--------相机更新线程--------*/
-  thread task_producer(&ThreadManager::producer, &thread_manager, std::ref(task_factory));
+  std::thread task_producer(&ThreadManager::producer, &thread_manager, std::ref(task_factory));
   fmt::print(fmt::fg(fmt::color::blue), "Producer start !!!!!!!!!!\n");
+  
   /*--------自瞄线程-----------*/
-  thread task_consumer(&ThreadManager::consumer, &thread_manager, std::ref(task_factory), std::ref(data_transmit_factory), std::ref(data_receive_factory));
+  std::thread task_consumer(&ThreadManager::consumer, &thread_manager, std::ref(task_factory), std::ref(data_transmit_factory), std::ref(data_receive_factory));
   fmt::print(fmt::fg(fmt::color::blue), "Consumer start !!!!!!!!!!\n");
-  /*--------接受线程----000----*/
-  thread receiver(&ThreadManager::dataReceiver, &thread_manager, std::ref(data_receive_factory));
+  
+  /*--------接受线程-----------*/
+  std::thread receiver(&ThreadManager::dataReceiver, &thread_manager, std::ref(data_receive_factory));
   fmt::print(fmt::fg(fmt::color::blue), "Receiver start !!!!!!!!!!\n");
 
   transmitter.join();
   task_producer.join();
   task_consumer.join();
 #ifdef isIMU
-  printf("IMU start !!!!!!!!!!\n");
+  fmt::print(fmt::fg(fmt::color::blue), "IMU start !!!!!!!!!!\n");
   receiver.join();
 #endif
   return 0;

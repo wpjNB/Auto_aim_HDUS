@@ -35,24 +35,42 @@ build/
 *.out
 *.app
 Infantry_Vision
+HDUS
 
-#Cache
+# Cache
 *.cache
 
-#Video & Image
+# Video & Image
 *.mp4
 *.jpg
 *.avi
 *.jpeg
+*.png
 
-#Logs
+# Logs
 *.log
 log/
-# *.WARNING
-# *.ERROR
-# *.INFO
 
-#CMake
-CMakeFiles
+# CMake
+CMakeFiles/
+CMakeCache.txt
 *.cmake
 Makefile
+cmake_install.cmake
+compile_commands.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# System files
+.DS_Store
+Thumbs.db

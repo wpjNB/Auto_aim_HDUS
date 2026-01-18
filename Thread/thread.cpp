@@ -50,6 +50,9 @@ bool ThreadManager::producer(Factory<TaskData> &factory)
 // 消费者
 bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData> &transmit_factory, Factory<VisionRecvData> &data_receive_factory)
 {
+  constexpr float MIN_ANGLE_THRESHOLD = 0.5f; // 最小角度阈值，小于此值时将角度设为0
+  constexpr float MAX_DISTANCE_INITIAL = 100000.0f; // 初始最大距离值
+  
   auto mode = 0, last_mode = 0;
   float bias_pitch = 0, bias_yaw = 0;
   // 自瞄类
@@ -90,7 +93,7 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
       // processor->processArmor(autoAim->True_armors, target_msg);
       // 筛选1个目标装甲板（目标中心最近的）
       rm_auto_aim::Armor *oneArmor = nullptr;
-      float minDis = 100000;
+      float minDis = MAX_DISTANCE_INITIAL;
       for (auto &armor : autoAim->True_armors)
       {
         if (armor.distance_to_image_center < minDis)
@@ -101,7 +104,7 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
       }
       if (autoAim->ArmorState == rm_auto_aim::ARMOR_FOUND && oneArmor != nullptr)
       {
-        if (abs(oneArmor->yaw) < 0.5f || abs(oneArmor->yaw) < 0.5f)
+        if (abs(oneArmor->yaw) < MIN_ANGLE_THRESHOLD || abs(oneArmor->pitch) < MIN_ANGLE_THRESHOLD)
         {
           oneArmor->yaw = 0;
           oneArmor->pitch = 0;
@@ -144,16 +147,18 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
 // 串口发送线程
 bool ThreadManager::dataTransmitter(Factory<VisionSendData> &transmit_factory)
 {
-
+  constexpr int SERIAL_RETRY_DELAY_US = 5000; // 5ms delay when serial is offline
+  
   while (1)
   {
     VisionSendData data;
     transmit_factory.consume(data);
+    
     // 若串口离线即初始化失败则跳过数据发送
-    // TODO:使用无串口的模式时会导致此线程死循环，浪费CPU性能
     if (serial->need_init == true)
     {
-      usleep(5000);
+      // Sleep to reduce CPU usage when serial is unavailable
+      usleep(SERIAL_RETRY_DELAY_US);
       continue;
     }
     serial->send(data);
