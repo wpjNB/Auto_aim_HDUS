@@ -1,4 +1,6 @@
 #include "thread.h"
+#include <cmath> // for std::abs with float
+
 // 生产者
 
 void ThreadManager::InitManager(const std::string &config_file_path)
@@ -12,7 +14,7 @@ void ThreadManager::InitManager(const std::string &config_file_path)
   imuSerial = std::make_unique<SerialPort>("/dev/IMU", 921600);
 #endif
   processor = std::make_unique<Processor>(config_file_path);
-  angleSolver = std::make_unique<AngleSolver>("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/AngleSolver/XML/out_camera_data1.xml", config_file_path);
+  angleSolver = std::make_unique<AngleSolver>("./AngleSolver/XML/out_camera_data1.xml", config_file_path);
   fmt::print(fmt::fg(fmt::color::yellow), " ==  == == == == == == == == == == == == == == \n");
   fmt::print(fmt::fg(fmt::color::blue), "Init all modules \n");
   fmt::print(fmt::fg(fmt::color::yellow), " ==  == == == == == == == == == == == == == == \n");
@@ -50,6 +52,9 @@ bool ThreadManager::producer(Factory<TaskData> &factory)
 // 消费者
 bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData> &transmit_factory, Factory<VisionRecvData> &data_receive_factory)
 {
+  constexpr float MIN_ANGLE_THRESHOLD = 0.5f; // 最小角度阈值，小于此值时将角度设为0
+  constexpr float MAX_DISTANCE_INITIAL = 100000.0f; // 初始最大距离值
+  
   auto mode = 0, last_mode = 0;
   float bias_pitch = 0, bias_yaw = 0;
   // 自瞄类
@@ -88,9 +93,9 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
         angleSolver->GetTransformation(armor, revData);
       }
       // processor->processArmor(autoAim->True_armors, target_msg);
-      // 率选1个目标装甲板（目标中心最近的）
-      auto oneArmor = new rm_auto_aim::Armor();
-      float minDis = 100000;
+      // 筛选1个目标装甲板（目标中心最近的）
+      rm_auto_aim::Armor *oneArmor = nullptr;
+      float minDis = MAX_DISTANCE_INITIAL;
       for (auto &armor : autoAim->True_armors)
       {
         if (armor.distance_to_image_center < minDis)
@@ -99,11 +104,15 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
           oneArmor = &armor;
         }
       }
-      if (autoAim->ArmorState == rm_auto_aim::ARMOR_FOUND)
+      if (autoAim->ArmorState == rm_auto_aim::ARMOR_FOUND && oneArmor != nullptr)
       {
-        if (abs(oneArmor->yaw) < 0.5f || abs(oneArmor->yaw) < 0.5f)
+        // 单独检查每个角度，如果过小则置零
+        if (std::abs(oneArmor->yaw) < MIN_ANGLE_THRESHOLD)
         {
           oneArmor->yaw = 0;
+        }
+        if (std::abs(oneArmor->pitch) < MIN_ANGLE_THRESHOLD)
+        {
           oneArmor->pitch = 0;
         }
         sendData.yaw_angle.f = oneArmor->yaw;
@@ -121,10 +130,13 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
       // draw all Armor
       autoAim->drawResults(dst.img);
       // draw target Armor
-      autoAim->showDebuginfo(dst.img, *oneArmor);
-      putText(dst.img, format(" aimT: %dms", timeMsMain), cv::Point(1100, 30), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
-      putText(dst.img, format(" camT: %dms", timeMsCam), cv::Point(1100, 60), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
-      imshow("test", dst.img);
+      if (oneArmor != nullptr)
+      {
+        autoAim->showDebuginfo(dst.img, *oneArmor);
+      }
+      cv::putText(dst.img, cv::format(" aimT: %dms", timeMsMain), cv::Point(1100, 30), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
+      cv::putText(dst.img, cv::format(" camT: %dms", timeMsCam), cv::Point(1100, 60), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
+      cv::imshow("test", dst.img);
       cv::waitKey(1);
 #endif
 
@@ -141,16 +153,18 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
 // 串口发送线程
 bool ThreadManager::dataTransmitter(Factory<VisionSendData> &transmit_factory)
 {
-
+  constexpr int SERIAL_RETRY_DELAY_US = 5000; // 5ms delay when serial is offline
+  
   while (1)
   {
     VisionSendData data;
     transmit_factory.consume(data);
+    
     // 若串口离线即初始化失败则跳过数据发送
-    // TODO:使用无串口的模式时会导致此线程死循环，浪费CPU性能
     if (serial->need_init == true)
     {
-      usleep(5000);
+      // Sleep to reduce CPU usage when serial is unavailable
+      usleep(SERIAL_RETRY_DELAY_US);
       continue;
     }
     serial->send(data);

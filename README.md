@@ -1,11 +1,36 @@
-<<<<<<< HEAD
-# Auto_aim_HDUS
-=======
-# 花椒步兵视觉开源方案 ReelSteel
+# 花椒步兵视觉开源方案 ReelSteel (Auto_aim_HDUS)
 
 ------
 
 华东交通大学2024赛季3V3对抗赛视觉开源框架
+
+## 项目改进 (Recent Refactoring)
+
+本项目进行了全面的代码重构和优化，主要改进包括：
+
+### 代码质量改进
+- ✅ 修复了内存泄漏问题（thread.cpp中的new/delete不匹配）
+- ✅ 移除了所有硬编码的绝对路径，改用相对路径
+- ✅ 移除了头文件中的`using namespace`声明，避免命名空间污染
+- ✅ 添加了空指针检查，提高代码健壮性
+- ✅ 将魔法数字提取为命名常量，提高代码可读性
+- ✅ 添加const正确性，提高代码安全性
+
+### 构建系统改进
+- ✅ 使用现代CMake实践重写CMakeLists.txt
+- ✅ 添加了版本信息和构建配置摘要
+- ✅ 改进了编译器警告设置
+- ✅ 优化了.gitignore配置
+
+### 错误处理改进
+- ✅ 添加了配置文件打开失败的异常处理
+- ✅ 改进了串口离线时的CPU使用率问题
+- ✅ 添加了FileStorage资源的正确释放
+
+### 文档改进
+- ✅ 统一了代码注释风格
+- ✅ 添加了配置常量的说明性注释
+- ✅ 改进了函数参数的const修饰
 
 #### 本开源参考：沈阳航空航天TUP2022，深大2019，上交2021,湖大2023开源
 
@@ -88,7 +113,30 @@
 - Glog 编译安装([ https://github.com/google/glog/releases/tag/v0.5.0](https://github.com/google/glog/releases/tag/v0.5.0))
 - Ceres ([ http://ceres-solver.org/installation.html](http://ceres-solver.org/installation.html))
 - Eigen (https://gitlab.com/libeigen/eigen/-/releases/3.4.0)或者直接sudo apt-get install libeigen3-dev
-- 
+
+### 编译说明
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/wpjNB/Auto_aim_HDUS.git
+cd Auto_aim_HDUS
+
+# 2. 创建构建目录
+mkdir build && cd build
+
+# 3. 配置和编译
+cmake ..
+make -j$(nproc)
+
+# 4. 运行（确保config.yaml和相关模型文件在正确位置）
+./HDUS
+```
+
+**注意**：
+- 确保所有配置文件（config.yaml, 相机参数XML等）与可执行文件在同一目录
+- 模型文件应放在 `./ArmorDetector/model/` 目录下
+- 相机参数文件应放在 `./HKCamera/XML/` 和 `./AngleSolver/XML/` 目录下
+
 
 ## 3.文件结构
 
