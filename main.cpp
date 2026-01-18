@@ -8,7 +8,7 @@ int main()
   Factory<VisionRecvData> data_receive_factory(6);
 
   ThreadManager thread_manager;
-  thread_manager.InitManager("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/config.yaml");
+  thread_manager.InitManager("./config.yaml");
   /*--------串口发送线程--------*/
   thread transmitter(&ThreadManager::dataTransmitter, &thread_manager, std::ref(data_transmit_factory));
   fmt::print(fmt::fg(fmt::color::blue), "Transmitter start !!!!!!!!!!\n");

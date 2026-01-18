@@ -12,7 +12,7 @@ void ThreadManager::InitManager(const std::string &config_file_path)
   imuSerial = std::make_unique<SerialPort>("/dev/IMU", 921600);
 #endif
   processor = std::make_unique<Processor>(config_file_path);
-  angleSolver = std::make_unique<AngleSolver>("/home/wpj/RM_Vision_code_US/auto_aim_HDUS/AngleSolver/XML/out_camera_data1.xml", config_file_path);
+  angleSolver = std::make_unique<AngleSolver>("./AngleSolver/XML/out_camera_data1.xml", config_file_path);
   fmt::print(fmt::fg(fmt::color::yellow), " ==  == == == == == == == == == == == == == == \n");
   fmt::print(fmt::fg(fmt::color::blue), "Init all modules \n");
   fmt::print(fmt::fg(fmt::color::yellow), " ==  == == == == == == == == == == == == == == \n");
@@ -88,8 +88,8 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
         angleSolver->GetTransformation(armor, revData);
       }
       // processor->processArmor(autoAim->True_armors, target_msg);
-      // 率选1个目标装甲板（目标中心最近的）
-      auto oneArmor = new rm_auto_aim::Armor();
+      // 筛选1个目标装甲板（目标中心最近的）
+      rm_auto_aim::Armor *oneArmor = nullptr;
       float minDis = 100000;
       for (auto &armor : autoAim->True_armors)
       {
@@ -99,7 +99,7 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
           oneArmor = &armor;
         }
       }
-      if (autoAim->ArmorState == rm_auto_aim::ARMOR_FOUND)
+      if (autoAim->ArmorState == rm_auto_aim::ARMOR_FOUND && oneArmor != nullptr)
       {
         if (abs(oneArmor->yaw) < 0.5f || abs(oneArmor->yaw) < 0.5f)
         {
@@ -121,7 +121,10 @@ bool ThreadManager::consumer(Factory<TaskData> &factory, Factory<VisionSendData>
       // draw all Armor
       autoAim->drawResults(dst.img);
       // draw target Armor
-      autoAim->showDebuginfo(dst.img, *oneArmor);
+      if (oneArmor != nullptr)
+      {
+        autoAim->showDebuginfo(dst.img, *oneArmor);
+      }
       putText(dst.img, format(" aimT: %dms", timeMsMain), cv::Point(1100, 30), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
       putText(dst.img, format(" camT: %dms", timeMsCam), cv::Point(1100, 60), cv::FONT_HERSHEY_SIMPLEX, 0.67, cv::Scalar(0, 255, 0), 1);
       imshow("test", dst.img);

@@ -14,15 +14,12 @@
 #include <fmt/format.h>
 #include <fmt/color.h>
 
-using namespace std;
-using namespace cv;
-
-// const string camera_name = "KE0200110076";  // 哨兵下云台
-const string camera_name = "KE0200110075"; // 步兵（4号)
-// const string camera_name = "KE0200110074";  // 步兵（5号）
-// const string camera_name = "KE0200110073";  // 英雄
-// const string camera_name = "MV_Sentry";     // 哨兵上云台
-// const string camera_name = "00J90630561";     // 5号blancer步兵
+// const std::string camera_name = "KE0200110076";  // 哨兵下云台
+const std::string camera_name = "KE0200110075"; // 步兵（4号)
+// const std::string camera_name = "KE0200110074";  // 步兵（5号）
+// const std::string camera_name = "KE0200110073";  // 英雄
+// const std::string camera_name = "MV_Sentry";     // 哨兵上云台
+// const std::string camera_name = "00J90630561";     // 5号blancer步兵
 
 enum EnemyColor
 {
@@ -73,7 +70,7 @@ struct TaskData
 {
     int mode;
     double bullet_speed;
-    Mat img;
+    cv::Mat img;
     Eigen::Quaterniond quat;
     int timestamp; // 单位：ms
 };

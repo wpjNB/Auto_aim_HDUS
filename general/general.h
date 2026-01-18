@@ -13,9 +13,6 @@
 #include <fmt/format.h>
 #include <fmt/color.h>
 
-using namespace std;
-using namespace cv;
-
 template <typename T>
 bool initMatrix(Eigen::MatrixXd &matrix, std::vector<T> &vector)
 {
@@ -35,13 +32,13 @@ float calcTriangleArea(cv::Point2f pts[3]);
 float calcTetragonArea(cv::Point2f pts[4]);
 double rangedAngleRad(double &angle);
 
-std::string symbolicToReal(string path);
-std::string relativeToFull(string relative, string src);
-string treeToPath(std::vector<string> &tree);
-string getParent(string path);
+std::string symbolicToReal(std::string path);
+std::string relativeToFull(std::string relative, std::string src);
+std::string treeToPath(std::vector<std::string> &tree);
+std::string getParent(std::string path);
 
-std::vector<string> readLines(string file_path);
-std::vector<string> generatePathTree(string path);
+std::vector<std::string> readLines(std::string file_path);
+std::vector<std::string> generatePathTree(std::string path);
 
 Eigen::Vector3d rotationMatrixToEulerAngles(Eigen::Matrix3d &R);
 Eigen::Vector3d calcDeltaEuler(Eigen::Vector3d euler1, Eigen::Vector3d euler2);

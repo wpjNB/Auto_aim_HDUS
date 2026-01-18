@@ -41,15 +41,13 @@
         fmt::print(fmt::fg(fmt::color::yellow), "Time elapsed(" #ID "):{} ms", std::chrono::duration<double, std::milli>(diff).count()); \
     } while (0);
 
-using namespace std;
-using namespace cv;
 template <typename T>
 class Factory
 {
 private:
     std::deque<T> buffer;
     int buffer_size;
-    mutex lock;
+    std::mutex lock;
 
 public:
     /**
