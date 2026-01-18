@@ -1,10 +1,15 @@
 #include "detector.h"
-using namespace cv;
+
 namespace rm_auto_aim
 {
   Detector::Detector(const std::string &config_file_path)
   {
     cv::FileStorage config(config_file_path, cv::FileStorage::READ);
+    if (!config.isOpened())
+    {
+      throw std::runtime_error("Failed to open config file: " + config_file_path);
+    }
+    
     // 初始化灯条参数
     config["detector"]["min_lightness"] >> min_lightness;
     config["detector"]["light_params"]["min_ratio"] >> L_Param.min_ratio;
@@ -27,9 +32,11 @@ namespace rm_auto_aim
     config["detector"]["classifier_params"]["label_path"] >> label_path;
     config["detector"]["classifier_params"]["threshold"] >> threshold;
     this->classifier = std::make_unique<rm_auto_aim::NumberClassifier>(model_path, label_path, threshold);
+    
+    config.release();
   }
 
-  void Detector::run(Mat &img, int color_label)
+  void Detector::run(cv::Mat &img, int color_label)
   {
 #ifdef USING_ROI
     ImageByROI(img);
@@ -37,27 +44,30 @@ namespace rm_auto_aim
     detector(img, color_label);
   }
 
-  void Detector::ImageByROI(Mat &img)
+  void Detector::ImageByROI(cv::Mat &img)
   {
-    static Rect imgBound = Rect(0, 0, img.cols, img.rows);
+    static cv::Rect imgBound = cv::Rect(0, 0, img.cols, img.rows);
+    constexpr int LOST_FRAME_THRESHOLD = 6; // 装甲板丢失阈值
+    constexpr int ROI_SCALE_FACTOR = 4;      // ROI区域缩放因子
+    
     if (ArmorState == ARMOR_FOUND)
     {
-      imgBound =
-          Rect(img.cols / 4, img.rows / 4, img.cols / 4 * 3, img.rows / 4 * 3);
+      imgBound = cv::Rect(img.cols / ROI_SCALE_FACTOR, img.rows / ROI_SCALE_FACTOR, 
+                         img.cols / ROI_SCALE_FACTOR * 3, img.rows / ROI_SCALE_FACTOR * 3);
     }
     else if (ArmorState == ARMOR_NOT_FOUND)
     {
-      static int lost_cnt;
-      if (++lost_cnt > 6) // 装甲板丢失5振
+      static int lost_cnt = 0;
+      if (++lost_cnt > LOST_FRAME_THRESHOLD)
       {
-        imgBound = Rect(0, 0, img.cols, img.rows);
+        imgBound = cv::Rect(0, 0, img.cols, img.rows);
         lost_cnt = 0;
       }
     }
     img = img(imgBound).clone();
   }
 
-  int Detector::detect_for_target(const Mat &frame, int color_label, Armor &TargetArmor)
+  int Detector::detect_for_target(const cv::Mat &frame, int color_label, Armor &TargetArmor)
   {
     detector(frame, color_label);
     //        // 根据confidence排序，并选择最大的
@@ -247,7 +257,7 @@ namespace rm_auto_aim
 
   // Check if there is another light in the boundingRect formed by the 2 lights
   bool Detector::containLight(const Light &light_1, const Light &light_2,
-                              const std::vector<Light> &lights)
+                              const std::vector<Light> &lights) const
   {
     auto points = std::vector<cv::Point2f>{light_1.top, light_1.bottom,
                                            light_2.top, light_2.bottom};
@@ -270,7 +280,7 @@ namespace rm_auto_aim
     return false;
   }
   // 画出灯条装甲板轮廓
-  void Detector::drawResults(cv::Mat &img)
+  void Detector::drawResults(cv::Mat &img) const
   {
     // Draw Lights
     for (const auto &light : True_lights)
@@ -301,9 +311,9 @@ namespace rm_auto_aim
     }
   }
   // 构造窗口显示角度姿态信息
-  void Detector::showDebuginfo(Mat &test, Armor &armor)
+  void Detector::showDebuginfo(cv::Mat &test, const Armor &armor) const
   {
-    // Mat img = Mat::zeros(330, 500, CV_8UC3);
+    // cv::Mat img = cv::Mat::zeros(330, 500, CV_8UC3);
 
     if (ArmorState == ARMOR_FOUND)
     {
@@ -311,32 +321,32 @@ namespace rm_auto_aim
       cv::Point2f pts_center;
       pts_center = points_center(pts);
       cv::circle(test, pts_center, 7, cv::Scalar(0, 255, 255), 2);
-      // putText(img, "ARMOR_FOUND", Point(100, 35), FONT_HERSHEY_SIMPLEX, 1,
-      //         Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, "ARMOR_FOUND", cv::Point(100, 35), cv::FONT_HERSHEY_SIMPLEX, 1,
+      //         cv::Scalar(255, 0, 255), 2, 8, false);
 
-      // putText(img, format("pitch: %.2f", armor.pitch), Point(100, 70),
-      //         FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
-      // putText(img, format("yaw: %.2f", armor.yaw), Point(100, 105),
-      //         FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("pitch: %.2f", armor.pitch), cv::Point(100, 70),
+      //         cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("yaw: %.2f", armor.yaw), cv::Point(100, 105),
+      //         cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 0, 255), 2, 8, false);
 
-      // putText(img, format("Dis: %.1f", armor.dis * 100), Point(100, 140),
-      //         FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255), 2, 8, false);
-      // putText(img, format("X: %.1f", armor.position_cam[0] * 100), Point(100, 175), FONT_HERSHEY_SIMPLEX,
-      //         1, Scalar(255, 0, 255), 2, 8, false);
-      // putText(img, format("Y: %.1f", armor.position_cam[1] * 100), Point(100, 205), FONT_HERSHEY_SIMPLEX,
-      //         1, Scalar(255, 0, 255), 2, 8, false);
-      // putText(img, format("Z: %.1f", armor.position_cam[2] * 100), Point(100, 240), FONT_HERSHEY_SIMPLEX,
-      //         1, Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("Dis: %.1f", armor.dis * 100), cv::Point(100, 140),
+      //         cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("X: %.1f", armor.position_cam[0] * 100), cv::Point(100, 175), cv::FONT_HERSHEY_SIMPLEX,
+      //         1, cv::Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("Y: %.1f", armor.position_cam[1] * 100), cv::Point(100, 205), cv::FONT_HERSHEY_SIMPLEX,
+      //         1, cv::Scalar(255, 0, 255), 2, 8, false);
+      // putText(img, format("Z: %.1f", armor.position_cam[2] * 100), cv::Point(100, 240), cv::FONT_HERSHEY_SIMPLEX,
+      //         1, cv::Scalar(255, 0, 255), 2, 8, false);
       // imshow("Debuginfo", img);
-      putText(test, format("XYZ_C: %.2f  %.2f  %.2f", armor.position_cam[0] * 100, armor.position_cam[1] * 100, armor.position_cam[2] * 100), Point(10, 30), FONT_HERSHEY_SIMPLEX,
-              0.65, Scalar(0, 255, 0), 2, 8, false);
-      putText(test, format("XYZ_W: %.2f  %.2f  %.2f", armor.position_world[0] * 100, armor.position_world[1] * 100, armor.position_world[2] * 100), Point(10, 60), FONT_HERSHEY_SIMPLEX,
-              0.65, Scalar(0, 255, 0), 2, 8, false);
+      cv::putText(test, cv::format("XYZ_C: %.2f  %.2f  %.2f", armor.position_cam[0] * 100, armor.position_cam[1] * 100, armor.position_cam[2] * 100), 
+                  cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.65, cv::Scalar(0, 255, 0), 2, 8, false);
+      cv::putText(test, cv::format("XYZ_W: %.2f  %.2f  %.2f", armor.position_world[0] * 100, armor.position_world[1] * 100, armor.position_world[2] * 100), 
+                  cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.65, cv::Scalar(0, 255, 0), 2, 8, false);
 
-      putText(test, format("yaw_cam: %.2f", armor.rotationPYR_cam[0] * 57.3), Point(10, 120), FONT_HERSHEY_SIMPLEX,
-              0.65, Scalar(0, 255, 0), 2, 8, false);
-      putText(test, format("yaw_world: %.2f", armor.rotationPYR_cam[1] * 57.3), Point(10, 90), FONT_HERSHEY_SIMPLEX,
-              0.65, Scalar(0, 255, 0), 2, 8, false);
+      cv::putText(test, cv::format("yaw_cam: %.2f", armor.rotationPYR_cam[0] * 57.3), 
+                  cv::Point(10, 120), cv::FONT_HERSHEY_SIMPLEX, 0.65, cv::Scalar(0, 255, 0), 2, 8, false);
+      cv::putText(test, cv::format("yaw_world: %.2f", armor.rotationPYR_cam[1] * 57.3), 
+                  cv::Point(10, 90), cv::FONT_HERSHEY_SIMPLEX, 0.65, cv::Scalar(0, 255, 0), 2, 8, false);
     }
     else
     {
